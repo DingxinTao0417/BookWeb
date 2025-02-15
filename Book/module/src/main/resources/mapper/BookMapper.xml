@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.single.mapper.StudentMapper">
+
+    <insert id="insert" parameterType="com.example.book.entity.Book">
+        insert into book (images, book_title, book_rating, book_review, create_time, update_time, is_deleted)
+        values (#{book.images}, #{book.bookTitle}, #{book.bookRating}, #{book.bookReview}, #{book.createTime}, #{book.updateTime}, #{book.isDeleted})
+    </insert>
+
+    <update id="update" parameterType="com.example.book.entity.Book">
+        update book set images = #{book.images},
+                        book_title = #{book.bookTitle},
+                        book_rating = #{book.bookRating},
+                        book_review = #{book.bookReview},
+                        update_time = #{book.updateTime}
+        where id = #{book.id}
+    </update>
+
+</mapper>
