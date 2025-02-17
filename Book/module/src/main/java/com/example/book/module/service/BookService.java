@@ -1,7 +1,7 @@
-package com.example.book.service;
+package com.example.book.module.service;
 
-import com.example.book.entity.Book;
-import com.example.book.mapper.BookMapper;
+import com.example.book.module.entity.Book;
+import com.example.book.module.mapper.BookMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

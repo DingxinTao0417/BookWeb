@@ -1,4 +1,4 @@
-package com.example.book.entity;
+package com.example.book.module.entity;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

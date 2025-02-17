@@ -1,4 +1,4 @@
-package com.example.book.app.domain.vo;
+package com.example.book.app.domain;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

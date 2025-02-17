@@ -10,11 +10,11 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import com.example.book.app.domain.vo.BookInfoVo;
-import com.example.book.app.domain.vo.BookListDetailsVo;
-import com.example.book.app.domain.vo.BookListVo;
-import com.example.book.entity.Book;
-import com.example.book.service.BookService;
+import com.example.book.app.domain.BookInfoVo;
+import com.example.book.app.domain.BookListDetailsVo;
+import com.example.book.app.domain.BookListVo;
+import com.example.book.module.entity.Book;
+import com.example.book.module.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

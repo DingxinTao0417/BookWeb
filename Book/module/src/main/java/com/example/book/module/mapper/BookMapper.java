@@ -1,10 +1,10 @@
-package com.example.book.mapper;
+package com.example.book.module.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-import com.example.book.entity.Book;
+import com.example.book.module.entity.Book;
 
 import java.math.BigInteger;
 import java.util.List;

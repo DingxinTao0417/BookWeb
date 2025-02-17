@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(scanBasePackages = "com.example.book")
-@MapperScan("com.example.book.mapper")
+@MapperScan("com.example.book.module.mapper")
 public class ConsoleApplication {
     public static void main(String[] args) {
         SpringApplication.run(ConsoleApplication.class, args);

@@ -1,8 +1,7 @@
 package com.example.book.console.controller;
 
-import com.example.book.console.domain.vo.ConsoleStatusVo;
-import com.example.book.entity.Book;
-import com.example.book.service.BookService;
+import com.example.book.console.domain.ConsoleStatusVo;
+import com.example.book.module.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.math.BigInteger;
 
 @RestController
-public class ConsoleController {
+public class BookController {
 
     @Autowired
     private BookService bookService;
