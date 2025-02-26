@@ -3,16 +3,33 @@
 <mapper namespace="com.example.book.module.mapper.BookMapper">
 
     <insert id="insert" parameterType="com.example.book.module.entity.Book">
-        insert into book (images, book_title, book_rating, book_review, create_time, update_time, is_deleted)
-        values (#{book.images}, #{book.bookTitle}, #{book.bookRating}, #{book.bookReview}, #{book.createTime}, #{book.updateTime}, #{book.isDeleted})
+        insert into book (
+        <if test="book.image != null">images,</if>
+        <if test="book.bookTitle != null">book_title,</if>
+        <if test="book.bookRating != null">book_rating,</if>
+        <if test="book.bookReview != null">book_review,</if>
+        <if test="book.createTime != null">create_time,</if>
+        <if test="book.updatetime != null">update_time,</if>
+        is_deleted
+        ) values (
+        <if test="book.image != null">#{book.images},</if>
+        <if test="book.bookTitle != null">#{book.bookTitle},</if>
+        <if test="book.bookRating != null">#{book.bookRating},</if>
+        <if test="book.bookReview != null">#{book.bookReview},</if>
+        <if test="book.createTime != null">#{book.createTime},</if>
+        <if test="book.updatetime != null">#{book.updateTime},</if>
+        #{book.isDeleted}
+    )
     </insert>
 
     <update id="update" parameterType="com.example.book.module.entity.Book">
-        update book set images = #{book.images},
-                        book_title = #{book.bookTitle},
-                        book_rating = #{book.bookRating},
-                        book_review = #{book.bookReview},
-                        update_time = #{book.updateTime}
+        update book
+        set id = #{book.id}
+            <if test="book.image != null">images = #{book.images},</if>
+            <if test="book.bookTitle != null">book_title = #{book.bookTitle},</if>
+            <if test="book.bookRating != null">book_rating = #{book.bookRating},</if>
+            <if test="book.bookReview != null">book_review = #{book.bookReview},</if>
+            <if test="book.updatetime != null">update_time = #{book.updateTime}</if>
         where id = #{book.id}
     </update>
 
