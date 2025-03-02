@@ -20,7 +20,7 @@ public class BookController {
                                       @RequestParam(name = "bookTitle") String bookTitle,
                                       @RequestParam(name = "bookRating") Integer bookRating,
                                       @RequestParam(name = "bookReview") String bookReview) {
-        int status = bookService.createBook(images, bookTitle, bookRating, bookReview);
+        int status = bookService.createBook(images, bookTitle.trim(), bookRating, bookReview);
         ConsoleStatusVo consoleStatusVo = new ConsoleStatusVo();
         consoleStatusVo.setStatus(1 == status ? "成功" : "失败");
         return consoleStatusVo;
@@ -32,7 +32,7 @@ public class BookController {
                                       @RequestParam(name = "bookTitle") String bookTitle,
                                       @RequestParam(name = "bookRating") Integer bookRating,
                                       @RequestParam(name = "bookReview") String bookReview) {
-        int status = bookService.updateBook(bookId, images, bookTitle, bookRating, bookReview);
+        int status = bookService.updateBook(bookId, images, bookTitle.trim(), bookRating, bookReview);
         ConsoleStatusVo consoleStatusVo = new ConsoleStatusVo();
         consoleStatusVo.setStatus(1 == status ? "成功" : "失败");
         return consoleStatusVo;

@@ -25,7 +25,7 @@ public class BookService {
 
         Book book = new Book();
         book.setImages(images);
-        book.setBookTitle(bookTitle != null ? bookTitle.trim() : null);
+        book.setBookTitle(bookTitle);
         book.setBookRating(bookRating);
         book.setBookReview(bookReview);
         book.setCreateTime(timestamp);
@@ -41,7 +41,7 @@ public class BookService {
         Book book = new Book();
         book.setId(bookId);
         book.setImages(images);
-        book.setBookTitle(bookTitle != null ? bookTitle.trim() : null);
+        book.setBookTitle(bookTitle);
         book.setBookRating(bookRating);
         book.setBookReview(bookReview);
         book.setUpdateTime(timestamp);
