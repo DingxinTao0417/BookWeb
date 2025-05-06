@@ -23,4 +23,13 @@ public interface BookMapper {
 
     @Update("update book set is_deleted=1, update_time=#{time} where id=#{id} limit 1")
     int delete(@Param("id") BigInteger id, @Param("time") Integer time);
+
+    // console分页查询
+    @Select("select * from book order by id desc limit #{limit} offset #{offset}")
+    List<Book> getByOffset(@Param("offset") Integer offset, @Param("limit") Integer limit);
+
+    // console total查询
+    @Select("select count(*) from book")
+    int getTotal();
+
 }

@@ -9,4 +9,7 @@ import java.util.List;
 @Accessors(chain = true)
 public class ConsoleListVo {
     private List<ConsoleListDetailsVo> list;
+    private int page;
+    private int pageSize;
+    private int total;
 }

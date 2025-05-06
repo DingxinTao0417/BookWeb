@@ -78,8 +78,13 @@ public class BookController {
     }
 
     @RequestMapping({"/book/list"})
-    public ConsoleListVo bookAll() {
-        List<Book> consoleList = this.bookService.getAllBookInfo();
+    public ConsoleListVo bookAll(
+            @RequestParam(name = "page", defaultValue = "1") int page,
+            @RequestParam(name = "pageSize", defaultValue = "10") int pageSize
+    ) {
+        int offset = (page - 1) * pageSize;
+        List<Book> consoleList = this.bookService.getBookPageByOffset(offset, pageSize);
+        int total = this.bookService.getBookTotal();
         List<ConsoleListDetailsVo> consoleListDetailsVoList = new ArrayList();
         Iterator var3 = consoleList.iterator();
 
@@ -108,6 +113,9 @@ public class BookController {
 
         ConsoleListVo consoleListVo = new ConsoleListVo();
         consoleListVo.setList(consoleListDetailsVoList);
+        consoleListVo.setPage(page);
+        consoleListVo.setPageSize(pageSize);
+        consoleListVo.setTotal(total);
         return consoleListVo;
     }
 

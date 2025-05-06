@@ -20,6 +20,14 @@ public class BookService {
 
     public List<Book> getAllBookInfo() { return bookMapper.getAll(); }
 
+    public List<Book> getBookPageByOffset(int offset, int limit) {
+        return bookMapper.getByOffset(offset, limit);
+    }
+
+    public int getBookTotal() {
+        return bookMapper.getTotal();
+    }
+
     public int createBook(String images, String bookTitle, Integer bookRating, String bookReview) {
         int timestamp = (int) (System.currentTimeMillis() / 1000);
 
