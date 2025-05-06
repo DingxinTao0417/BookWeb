@@ -48,8 +48,14 @@ public class BookController {
     }
 
     @RequestMapping({"/book/list"})
-    public BookListVo bookAll() {
-        List<Book> bookList = this.bookService.getAllBookInfo();
+    public BookListVo bookAll(
+            @RequestParam(name = "page", defaultValue = "1") int page
+    ) {
+        int pageSize = 4;
+        int offset = (page - 1) * pageSize;
+        boolean isEnd = true;
+
+        List<Book> bookList = this.bookService.getBookPageByOffset(offset, pageSize + 1);
         List<BookListDetailsVo> bookListDetailsVoList = new ArrayList();
         Iterator var3 = bookList.iterator();
 
@@ -63,8 +69,13 @@ public class BookController {
             bookListDetailsVoList.add(bookListDetailsVo);
         }
 
+        if (bookList.size() > pageSize) {
+            isEnd = false;
+        }
+
         BookListVo bookListVo = new BookListVo();
         bookListVo.setList(bookListDetailsVoList);
+        bookListVo.setIsEnd(isEnd);
         return bookListVo;
     }
 }
