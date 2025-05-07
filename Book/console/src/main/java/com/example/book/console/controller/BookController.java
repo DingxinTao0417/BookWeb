@@ -78,9 +78,8 @@ public class BookController {
     }
 
     @RequestMapping({"/book/list"})
-    public ConsoleListVo bookAll(
-            @RequestParam(name = "page", defaultValue = "1") int page,
-            @RequestParam(name = "pageSize", defaultValue = "10") int pageSize
+    public ConsoleListVo bookAll(@RequestParam(name = "page", defaultValue = "1") int page,
+                                 @RequestParam(name = "pageSize", defaultValue = "10") int pageSize
     ) {
         int offset = (page - 1) * pageSize;
         List<Book> consoleList = this.bookService.getBookPageByOffset(offset, pageSize);

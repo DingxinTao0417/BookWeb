@@ -48,9 +48,7 @@ public class BookController {
     }
 
     @RequestMapping({"/book/list"})
-    public BookListVo bookAll(
-            @RequestParam(name = "page", defaultValue = "1") int page
-    ) {
+    public BookListVo bookAll(@RequestParam(name = "page", defaultValue = "1") int page) {
         int pageSize = 4;
         int offset = (page - 1) * pageSize;
         boolean isEnd = true;
