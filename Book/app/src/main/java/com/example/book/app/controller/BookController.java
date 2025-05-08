@@ -51,9 +51,9 @@ public class BookController {
     public BookListVo bookAll(@RequestParam(name = "page", defaultValue = "1") int page) {
         int pageSize = 4;
         int offset = (page - 1) * pageSize;
-        boolean isEnd = true;
 
-        List<Book> bookList = this.bookService.getBookPageByOffset(offset, pageSize + 1);
+        List<Book> bookList = this.bookService.getBookPageByOffset(offset, pageSize);
+        boolean isEnd = pageSize > bookList.size();
         List<BookListDetailsVo> bookListDetailsVoList = new ArrayList();
         Iterator var3 = bookList.iterator();
 
@@ -65,10 +65,6 @@ public class BookController {
             bookListDetailsVo.setBookTitle(book.getBookTitle());
             bookListDetailsVo.setBookRating(book.getBookRating());
             bookListDetailsVoList.add(bookListDetailsVo);
-        }
-
-        if (bookList.size() > pageSize) {
-            isEnd = false;
         }
 
         BookListVo bookListVo = new BookListVo();
