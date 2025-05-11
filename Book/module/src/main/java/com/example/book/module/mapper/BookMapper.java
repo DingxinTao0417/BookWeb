@@ -14,6 +14,9 @@ public interface BookMapper {
     @Select("select * from book WHERE id=#{id} and is_deleted = 0")
     Book getById(@Param("id") BigInteger id);
 
+    @Select("select * from book WHERE id=#{id}")
+    Book extractById(@Param("id") BigInteger id);
+
     @Select("select * from book WHERE is_deleted = 0")
     List<Book> getAll();
 

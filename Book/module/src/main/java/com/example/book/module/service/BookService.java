@@ -18,6 +18,8 @@ public class BookService {
         return bookMapper.getById(id);
     }
 
+    public Book extractBookInfoById(BigInteger id) {return bookMapper.extractById(id);}
+
     public List<Book> getAllBookInfo() { return bookMapper.getAll(); }
 
     public List<Book> getBookPageByOffset(int offset, int limit) {
