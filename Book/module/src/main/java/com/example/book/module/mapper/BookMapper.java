@@ -25,8 +25,7 @@ public interface BookMapper {
     int delete(@Param("id") BigInteger id, @Param("time") Integer time);
 
     // console分页查询
-    @Select("select * from book where is_deleted = 0 order by id desc limit #{limit} offset #{offset}")
-    List<Book> getByOffset(@Param("offset") Integer offset, @Param("limit") Integer limit);
+    List<Book> getByOffset(@Param("offset") Integer offset, @Param("limit") Integer limit, @Param("keyword") String keyword);
 
     // console total查询
     @Select("select count(*) from book where is_deleted = 0")

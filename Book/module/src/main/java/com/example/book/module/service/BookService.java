@@ -21,7 +21,11 @@ public class BookService {
     public List<Book> getAllBookInfo() { return bookMapper.getAll(); }
 
     public List<Book> getBookPageByOffset(int offset, int limit) {
-        return bookMapper.getByOffset(offset, limit);
+        return bookMapper.getByOffset(offset, limit, "");
+    }
+
+    public List<Book> getBookPageByOffset(int offset, int limit, String keyword) {
+        return bookMapper.getByOffset(offset, limit, keyword);
     }
 
     public int getBookTotal() {

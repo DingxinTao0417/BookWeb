@@ -48,11 +48,13 @@ public class BookController {
     }
 
     @RequestMapping({"/book/list"})
-    public BookListVo bookAll(@RequestParam(name = "page", defaultValue = "1") int page) {
+    public BookListVo bookAll(@RequestParam(name = "page", defaultValue = "1") int page,
+                              @RequestParam(name = "keyword", required = false, defaultValue = "") String keyword
+    ) {
         int pageSize = 4;
         int offset = (page - 1) * pageSize;
 
-        List<Book> bookList = this.bookService.getBookPageByOffset(offset, pageSize);
+        List<Book> bookList = this.bookService.getBookPageByOffset(offset, pageSize, keyword);
         boolean isEnd = pageSize > bookList.size();
         List<BookListDetailsVo> bookListDetailsVoList = new ArrayList();
         Iterator var3 = bookList.iterator();
