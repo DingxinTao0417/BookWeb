@@ -8,7 +8,7 @@ import java.math.BigInteger;
 @Data
 @Accessors(chain = true)
 public class Book {
-    private BigInteger id;
+    private int id;
     private String images;
     private String bookTitle;
     private Integer bookRating;

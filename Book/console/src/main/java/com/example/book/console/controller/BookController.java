@@ -39,7 +39,7 @@ public class BookController {
     }
 
     @RequestMapping("/book/update")
-    public ConsoleStatusVo bookUpdate(@RequestParam(name = "bookId") BigInteger bookId,
+    public ConsoleStatusVo bookUpdate(@RequestParam(name = "bookId") int bookId,
                                       @RequestParam(name = "images") String images,
                                       @RequestParam(name = "bookTitle") String bookTitle,
                                       @RequestParam(name = "bookRating") Integer bookRating,
@@ -51,7 +51,7 @@ public class BookController {
     }
 
     @RequestMapping("/book/delete")
-    public ConsoleStatusVo bookDelete(@RequestParam(name = "bookId") BigInteger bookId) {
+    public ConsoleStatusVo bookDelete(@RequestParam(name = "bookId") int bookId) {
         int status = bookService.deleteBook(bookId);
         ConsoleStatusVo consoleInfoVo = new ConsoleStatusVo();
         consoleInfoVo.setStatus(1 == status ? "成功" : "失败");
@@ -59,7 +59,7 @@ public class BookController {
     }
 
     @RequestMapping("/book/info")
-    public ConsoleInfoVo bookInfo(@RequestParam(name = "bookId") BigInteger bookId) {
+    public ConsoleInfoVo bookInfo(@RequestParam(name = "bookId") int bookId) {
         Book book = bookService.getBookInfoById(bookId);
         if (book == null) {
             return null;

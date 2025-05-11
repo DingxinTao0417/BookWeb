@@ -8,7 +8,7 @@ import java.math.BigInteger;
 @Data
 @Accessors(chain = true)
 public class ConsoleListDetailsVo {
-    private BigInteger bookId;
+    private int bookId;
     private String image;
     private String bookTitle;
     private Integer bookRating;

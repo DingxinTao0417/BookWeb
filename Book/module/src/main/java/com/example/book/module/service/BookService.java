@@ -2,6 +2,7 @@ package com.example.book.module.service;
 
 import com.example.book.module.entity.Book;
 import com.example.book.module.mapper.BookMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,11 +15,11 @@ public class BookService {
     @Resource
     private BookMapper bookMapper;
 
-    public Book getBookInfoById(BigInteger id) {
-        return bookMapper.getById(id);
+    public Book getBookInfoById(int id) {
+        return bookMapper.selectById(id);
     }
 
-    public Book extractBookInfoById(BigInteger id) {return bookMapper.extractById(id);}
+    public Book extractBookInfoById(int id) {return bookMapper.extractById(id);}
 
     public List<Book> getAllBookInfo() { return bookMapper.getAll(); }
 
@@ -49,7 +50,7 @@ public class BookService {
         return bookMapper.insert(book);
     }
 
-    public int updateBook(BigInteger bookId, String images, String bookTitle, Integer bookRating, String bookReview) {
+    public int updateBook(int bookId, String images, String bookTitle, Integer bookRating, String bookReview) {
         int timestamp = (int) (System.currentTimeMillis() / 1000);
 
         Book book = new Book();
@@ -60,10 +61,10 @@ public class BookService {
         book.setBookReview(bookReview);
         book.setUpdateTime(timestamp);
 
-        return bookMapper.update(book);
+        return bookMapper.updateById(book);
     }
 
-    public int deleteBook(BigInteger id) {
-        return bookMapper.delete(id, (int) (System.currentTimeMillis() / 1000));
+    public int deleteBook(int id) {
+        return bookMapper.deleteById(id);
     }
 }

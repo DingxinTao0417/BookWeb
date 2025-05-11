@@ -2,45 +2,5 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.book.module.mapper.BookMapper">
 
-    <insert id="insert" parameterType="com.example.book.module.entity.Book">
-        insert into book (
-        <if test="book.image != null and book.image != ''">images,</if>
-        <if test="book.bookTitle != null and book.bookTitle != ''">book_title,</if>
-        <if test="book.bookRating != null">book_rating,</if>
-        <if test="book.bookReview != null and book.bookReview != ''">book_review,</if>
-        <if test="book.createTime != null">create_time,</if>
-        <if test="book.updatetime != null">update_time,</if>
-        is_deleted
-        ) values (
-        <if test="book.image != null and book.image != ''">#{book.images},</if>
-        <if test="book.bookTitle != null and book.bookTitle != ''">#{book.bookTitle},</if>
-        <if test="book.bookRating != null">#{book.bookRating},</if>
-        <if test="book.bookReview != null and book.bookReview != ''">#{book.bookReview},</if>
-        <if test="book.createTime != null">#{book.createTime},</if>
-        <if test="book.updatetime != null">#{book.updateTime},</if>
-        #{book.isDeleted}
-    )
-    </insert>
-
-    <update id="update" parameterType="com.example.book.module.entity.Book">
-        update book
-        set id = #{book.id}
-            <if test="book.image != null and book.image != ''">images = #{book.images},</if>
-            <if test="book.bookTitle != null and book.bookTitle != ''">book_title = #{book.bookTitle},</if>
-            <if test="book.bookRating != null">book_rating = #{book.bookRating},</if>
-            <if test="book.bookReview != null and book.bookReview != ''">book_review = #{book.bookReview},</if>
-            <if test="book.updatetime != null">update_time = #{book.updateTime}</if>
-        where id = #{book.id}
-    </update>
-
-    <select id="getByOffset" resultType="com.example.book.module.entity.Book">
-        select * from book
-        where is_deleted = 0
-        <if test = "keyword != null and keyword != ''">
-            AND book_title LIKE CONCAT('%',#{keyword},'%')
-        </if>
-        order by id desc
-        limit #{limit} offset #{offset}
-    </select>
 
 </mapper>

@@ -29,7 +29,7 @@ public class BookController {
     }
 
     @RequestMapping("/book/info")
-    public BookInfoVo bookInfo(@RequestParam(name = "bookId") BigInteger bookId) {
+    public BookInfoVo bookInfo(@RequestParam(name = "bookId") int bookId) {
         Book book = bookService.getBookInfoById(bookId);
         if (book == null) {
             return null;
