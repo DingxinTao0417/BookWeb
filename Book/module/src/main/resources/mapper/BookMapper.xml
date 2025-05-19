@@ -33,6 +33,41 @@
         where id = #{book.id}
     </update>
 
+    <insert id="edit" parameterType="com.example.book.module.entity.Book">
+        <choose>
+            <when test="book.id == null">
+                insert into book (
+                <if test="book.image != null and book.image != ''">images,</if>
+                <if test="book.bookTitle != null and book.bookTitle != ''">book_title,</if>
+                <if test="book.bookRating != null">book_rating,</if>
+                <if test="book.bookReview != null and book.bookReview != ''">book_review,</if>
+                <if test="book.createTime != null">create_time,</if>
+                <if test="book.updatetime != null">update_time,</if>
+                is_deleted
+                ) values (
+                <if test="book.image != null and book.image != ''">#{book.images},</if>
+                <if test="book.bookTitle != null and book.bookTitle != ''">#{book.bookTitle},</if>
+                <if test="book.bookRating != null">#{book.bookRating},</if>
+                <if test="book.bookReview != null and book.bookReview != ''">#{book.bookReview},</if>
+                <if test="book.createTime != null">#{book.createTime},</if>
+                <if test="book.updatetime != null">#{book.updateTime},</if>
+                #{book.isDeleted}
+                )
+            </when>
+
+            <otherwise>
+                update book
+                set id = #{book.id}
+                <if test="book.image != null and book.image != ''">images = #{book.images},</if>
+                <if test="book.bookTitle != null and book.bookTitle != ''">book_title = #{book.bookTitle},</if>
+                <if test="book.bookRating != null">book_rating = #{book.bookRating},</if>
+                <if test="book.bookReview != null and book.bookReview != ''">book_review = #{book.bookReview},</if>
+                <if test="book.updatetime != null">update_time = #{book.updateTime}</if>
+                where id = #{book.id}
+            </otherwise>
+        </choose>
+    </insert>
+
     <select id="getByOffset" resultType="com.example.book.module.entity.Book">
         select * from book
         where is_deleted = 0

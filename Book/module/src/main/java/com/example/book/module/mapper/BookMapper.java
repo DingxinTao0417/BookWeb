@@ -24,6 +24,8 @@ public interface BookMapper {
 
     int insert(@Param("book") Book book);
 
+    int edit(@Param("book") Book book);
+
     @Update("update book set is_deleted=1, update_time=#{time} where id=#{id} limit 1")
     int delete(@Param("id") BigInteger id, @Param("time") Integer time);
 
