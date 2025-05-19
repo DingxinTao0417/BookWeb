@@ -15,18 +15,34 @@ public class BookService {
     private BookMapper bookMapper;
 
     public Book getBookInfoById(BigInteger id) {
+        if (id == null) {
+            return null;
+        }
         return bookMapper.getById(id);
     }
 
-    public Book extractBookInfoById(BigInteger id) {return bookMapper.extractById(id);}
+    public Book extractBookInfoById(BigInteger id) {
+        if (id == null) {
+            return null;
+        }
+        return bookMapper.extractById(id);
+    }
 
-    public List<Book> getAllBookInfo() { return bookMapper.getAll(); }
+    public List<Book> getAllBookInfo() {
+        return bookMapper.getAll();
+    }
 
     public List<Book> getBookPageByOffset(int offset, int limit) {
+        if (offset < 0 || limit < 0) {
+            return null;
+        }
         return bookMapper.getByOffset(offset, limit, "");
     }
 
     public List<Book> getBookPageByOffset(int offset, int limit, String keyword) {
+        if (offset < 0 || limit < 0 || keyword == null) {
+            return null;
+        }
         return bookMapper.getByOffset(offset, limit, keyword);
     }
 
@@ -35,8 +51,10 @@ public class BookService {
     }
 
     public int createBook(String images, String bookTitle, Integer bookRating, String bookReview) {
+        if (images == null || bookTitle == null || bookRating == null || bookReview == null) {
+            return 0;
+        }
         int timestamp = (int) (System.currentTimeMillis() / 1000);
-
         Book book = new Book();
         book.setImages(images);
         book.setBookTitle(bookTitle);
@@ -50,8 +68,10 @@ public class BookService {
     }
 
     public int updateBook(BigInteger bookId, String images, String bookTitle, Integer bookRating, String bookReview) {
+        if (bookId == null || images == null || bookTitle == null || bookRating == null || bookReview == null) {
+            return 0;
+        }
         int timestamp = (int) (System.currentTimeMillis() / 1000);
-
         Book book = new Book();
         book.setId(bookId);
         book.setImages(images);
@@ -64,6 +84,9 @@ public class BookService {
     }
 
     public int deleteBook(BigInteger id) {
+        if (id == null) {
+            return 0;
+        }
         return bookMapper.delete(id, (int) (System.currentTimeMillis() / 1000));
     }
 }
