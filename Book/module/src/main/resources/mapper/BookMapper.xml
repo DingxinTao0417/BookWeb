@@ -4,7 +4,7 @@
 
     <insert id="insert" parameterType="com.example.book.module.entity.Book">
         insert into book (
-        <if test="book.image != null and book.image != ''">images,</if>
+        <if test="book.images != null and book.images != ''">images,</if>
         <if test="book.bookTitle != null and book.bookTitle != ''">book_title,</if>
         <if test="book.bookRating != null">book_rating,</if>
         <if test="book.bookReview != null and book.bookReview != ''">book_review,</if>
@@ -12,7 +12,7 @@
         <if test="book.updatetime != null">update_time,</if>
         is_deleted
         ) values (
-        <if test="book.image != null and book.image != ''">#{book.images},</if>
+        <if test="book.images != null and book.images != ''">#{book.images},</if>
         <if test="book.bookTitle != null and book.bookTitle != ''">#{book.bookTitle},</if>
         <if test="book.bookRating != null">#{book.bookRating},</if>
         <if test="book.bookReview != null and book.bookReview != ''">#{book.bookReview},</if>
@@ -24,8 +24,8 @@
 
     <update id="update" parameterType="com.example.book.module.entity.Book">
         update book
-        set id = #{book.id}
-            <if test="book.image != null and book.image != ''">images = #{book.images},</if>
+        set id = #{book.id},
+            <if test="book.images != null and book.images != ''">images = #{book.images},</if>
             <if test="book.bookTitle != null and book.bookTitle != ''">book_title = #{book.bookTitle},</if>
             <if test="book.bookRating != null">book_rating = #{book.bookRating},</if>
             <if test="book.bookReview != null and book.bookReview != ''">book_review = #{book.bookReview},</if>
@@ -37,7 +37,7 @@
         <choose>
             <when test="book.id == null">
                 insert into book (
-                <if test="book.image != null and book.image != ''">images,</if>
+                <if test="book.images != null and book.images != ''">images,</if>
                 <if test="book.bookTitle != null and book.bookTitle != ''">book_title,</if>
                 <if test="book.bookRating != null">book_rating,</if>
                 <if test="book.bookReview != null and book.bookReview != ''">book_review,</if>
@@ -45,7 +45,7 @@
                 <if test="book.updatetime != null">update_time,</if>
                 is_deleted
                 ) values (
-                <if test="book.image != null and book.image != ''">#{book.images},</if>
+                <if test="book.images != null and book.images != ''">#{book.images},</if>
                 <if test="book.bookTitle != null and book.bookTitle != ''">#{book.bookTitle},</if>
                 <if test="book.bookRating != null">#{book.bookRating},</if>
                 <if test="book.bookReview != null and book.bookReview != ''">#{book.bookReview},</if>
@@ -57,8 +57,8 @@
 
             <otherwise>
                 update book
-                set id = #{book.id}
-                <if test="book.image != null and book.image != ''">images = #{book.images},</if>
+                set id = #{book.id},
+                <if test="book.images != null and book.images != ''">images = #{book.images},</if>
                 <if test="book.bookTitle != null and book.bookTitle != ''">book_title = #{book.bookTitle},</if>
                 <if test="book.bookRating != null">book_rating = #{book.bookRating},</if>
                 <if test="book.bookReview != null and book.bookReview != ''">book_review = #{book.bookReview},</if>

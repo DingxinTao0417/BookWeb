@@ -15,11 +15,13 @@ import com.example.book.app.domain.BookListDetailsVo;
 import com.example.book.app.domain.BookListVo;
 import com.example.book.module.entity.Book;
 import com.example.book.module.service.BookService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 public class BookController {
     @Autowired

@@ -50,10 +50,7 @@ public class BookService {
         return bookMapper.getTotal();
     }
 
-    public int createBook(String images, String bookTitle, Integer bookRating, String bookReview) {
-        if (images == null || bookTitle == null || bookRating == null || bookReview == null) {
-            return 0;
-        }
+    public Result<Integer> createBook(String images, String bookTitle, Integer bookRating, String bookReview) {
         int timestamp = (int) (System.currentTimeMillis() / 1000);
         Book book = new Book();
         book.setImages(images);
@@ -64,13 +61,19 @@ public class BookService {
         book.setUpdateTime(timestamp);
         book.setIsDeleted(0);
 
-        return bookMapper.insert(book);
+        try {
+            int result = bookMapper.edit(book);
+            if (result == 1) {
+                return Result.success(result, "添加数据成功");
+            } else {
+                return Result.fail("添加数据失败");
+            }
+        } catch (Exception e) {
+            return Result.fail("添加数据失败", e.getMessage());
+        }
     }
 
-    public int updateBook(BigInteger bookId, String images, String bookTitle, Integer bookRating, String bookReview) {
-        if (bookId == null || images == null || bookTitle == null || bookRating == null || bookReview == null) {
-            return 0;
-        }
+    public Result<Integer> updateBook(BigInteger bookId, String images, String bookTitle, Integer bookRating, String bookReview) {
         int timestamp = (int) (System.currentTimeMillis() / 1000);
         Book book = new Book();
         book.setId(bookId);
@@ -80,7 +83,17 @@ public class BookService {
         book.setBookReview(bookReview);
         book.setUpdateTime(timestamp);
 
-        return bookMapper.update(book);
+        try {
+            int result =  bookMapper.edit(book);
+            if (result == 1) {
+                return Result.success(result, "更新数据成功");
+            } else {
+                return Result.fail("更新数据失败：bookId不存在");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return Result.fail("更新数据失败", e.getMessage());
+        }
     }
 
     public int deleteBook(BigInteger id) {
