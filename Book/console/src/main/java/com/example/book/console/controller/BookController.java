@@ -62,7 +62,7 @@ public class BookController {
     public ConsoleInfoVo bookInfo(@RequestParam(name = "bookId") BigInteger bookId) {
         Book book = bookService.getBookInfoById(bookId);
         if (book == null) {
-            return null;
+            return new ConsoleInfoVo();
         }
         ConsoleInfoVo consoleInfoVo = new ConsoleInfoVo();
         consoleInfoVo.setImageList(new ArrayList<>(Arrays.asList(book.getImages().split("\\$"))));
@@ -83,7 +83,13 @@ public class BookController {
     ) {
         int offset = (page - 1) * pageSize;
         List<Book> consoleList = this.bookService.getBookPageByOffset(offset, pageSize);
+        if (consoleList == null || consoleList.isEmpty()) {
+            return new ConsoleListVo();
+        }
         int total = this.bookService.getBookTotal();
+        if (total == 0) {
+            return new ConsoleListVo();
+        }
         List<ConsoleListDetailsVo> consoleListDetailsVoList = new ArrayList();
         Iterator var3 = consoleList.iterator();
 
