@@ -8,9 +8,7 @@ import com.example.book.module.entity.Book;
 import com.example.book.module.service.BookService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
 import java.time.Instant;
@@ -23,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.example.book.module.service.Result;
+import com.example.book.module.Exceptions.GlobelExceptionHandler;
 
 @Slf4j
 @RestController
@@ -36,19 +35,11 @@ public class BookController {
                                       @RequestParam(name = "bookTitle") String bookTitle,
                                       @RequestParam(name = "bookRating") Integer bookRating,
                                       @RequestParam(name = "bookReview") String bookReview) {
-        log.info("收到添加数据请求。 images={}, bookTitle={}, bookRating={}, bookReview={}", images, bookTitle, bookRating, bookReview);
-
         Result<Integer> status;
         ConsoleStatusVo consoleInfoVo = new ConsoleStatusVo();
 
-        try {
-            status = bookService.createBook(images, bookTitle.trim(), bookRating, bookReview);
-            consoleInfoVo.setStatus(status.getMessage());
-            log.info(status.getMessage());
-        } catch (Exception e) {
-            status = bookService.createBook(images, bookTitle.trim(), bookRating, bookReview);
-            log.info(status.getMessage() + status.getErrorMessage());
-        }
+        status = bookService.createBook(images, bookTitle.trim(), bookRating, bookReview);
+        consoleInfoVo.setStatus(status.getMessage());
 
         return consoleInfoVo;
     }
@@ -59,20 +50,11 @@ public class BookController {
                                       @RequestParam(name = "bookTitle") String bookTitle,
                                       @RequestParam(name = "bookRating") Integer bookRating,
                                       @RequestParam(name = "bookReview") String bookReview) {
-
-        log.info("收到更新数据请求。 bookId={}, images={}, bookTitle={}, bookRating={}, bookReview={}", bookId, images, bookTitle, bookRating, bookReview);
-
         Result<Integer> status;
         ConsoleStatusVo consoleInfoVo = new ConsoleStatusVo();
 
-        try {
-            status = bookService.updateBook(bookId, images, bookTitle.trim(), bookRating, bookReview);
-            consoleInfoVo.setStatus(status.getMessage());
-            log.info(status.getMessage());
-        } catch (Exception e) {
-            status = bookService.updateBook(bookId, images, bookTitle.trim(), bookRating, bookReview);
-            log.info(status.getMessage() + status.getErrorMessage());
-        }
+        status = bookService.updateBook(bookId, images, bookTitle.trim(), bookRating, bookReview);
+        consoleInfoVo.setStatus(status.getMessage());
 
         return consoleInfoVo;
     }
