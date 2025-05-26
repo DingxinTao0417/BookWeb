@@ -1,9 +1,6 @@
 package com.example.book.console.controller;
 
-import com.example.book.console.domain.ConsoleInfoVo;
-import com.example.book.console.domain.ConsoleListVo;
-import com.example.book.console.domain.ConsoleListDetailsVo;
-import com.example.book.console.domain.ConsoleStatusVo;
+import com.example.book.console.domain.*;
 import com.example.book.module.entity.Book;
 import com.example.book.module.service.BookService;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +18,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.example.book.module.service.Result;
-import com.example.book.module.Exceptions.GlobelExceptionHandler;
 
 @Slf4j
 @RestController
@@ -35,13 +31,15 @@ public class BookController {
                                       @RequestParam(name = "bookTitle") String bookTitle,
                                       @RequestParam(name = "bookRating") Integer bookRating,
                                       @RequestParam(name = "bookReview") String bookReview) {
-        Result<Integer> status;
-        ConsoleStatusVo consoleInfoVo = new ConsoleStatusVo();
-
-        status = bookService.createBook(images, bookTitle.trim(), bookRating, bookReview);
-        consoleInfoVo.setStatus(status.getMessage());
-
-        return consoleInfoVo;
+        ConsoleStatusVo consoleStatusVo = new ConsoleStatusVo();
+        try {
+            BigInteger bookId = bookService.editBook(null, images, bookTitle.trim(), bookRating, bookReview);
+            consoleStatusVo.setBookId(bookId);
+            return consoleStatusVo;
+        } catch (RuntimeException e){
+            consoleStatusVo.setError(e.getMessage());
+            return consoleStatusVo;
+        }
     }
 
     @RequestMapping("/book/update")
@@ -50,13 +48,15 @@ public class BookController {
                                       @RequestParam(name = "bookTitle") String bookTitle,
                                       @RequestParam(name = "bookRating") Integer bookRating,
                                       @RequestParam(name = "bookReview") String bookReview) {
-        Result<Integer> status;
-        ConsoleStatusVo consoleInfoVo = new ConsoleStatusVo();
-
-        status = bookService.updateBook(bookId, images, bookTitle.trim(), bookRating, bookReview);
-        consoleInfoVo.setStatus(status.getMessage());
-
-        return consoleInfoVo;
+        ConsoleStatusVo consoleStatusVo = new ConsoleStatusVo();
+        try {
+            BigInteger returnedBookId = bookService.editBook(null, images, bookTitle.trim(), bookRating, bookReview);
+            consoleStatusVo.setBookId(returnedBookId);
+            return consoleStatusVo;
+        } catch (RuntimeException e){
+            consoleStatusVo.setError(e.getMessage());
+            return consoleStatusVo;
+        }
     }
 
     @RequestMapping("/book/delete")
