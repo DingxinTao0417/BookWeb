@@ -96,6 +96,48 @@ public class BookService {
         }
     }
 
+    private void validateParameters(String images, String bookTitle,
+                                    Integer bookRating, String bookReview) {
+        if (images == null || images.trim().isEmpty()) {
+            throw new RuntimeException("图片不能为空");
+        }
+        if (bookTitle == null || bookTitle.trim().isEmpty()) {
+            throw new RuntimeException("书名不能为空");
+        }
+        if (bookRating == null || bookRating < 0 || bookRating > 5) {
+            throw new RuntimeException("评分必须在0-5之间且不能为空");
+        }
+        if (bookReview == null || bookReview.trim().isEmpty()) {
+            throw new RuntimeException("书评不能为空");
+        }
+    }
+
+    public BigInteger editBook(BigInteger bookId, String images, String bookTitle, Integer bookRating, String bookReview) {
+        validateParameters(images, bookTitle, bookRating, bookReview);
+
+        int timestamp = (int) (System.currentTimeMillis() / 1000);
+        Book book = new Book();
+        book.setImages(images);
+        book.setBookTitle(bookTitle);
+        book.setBookRating(bookRating);
+        book.setBookReview(bookReview);
+        book.setUpdateTime(timestamp);
+
+        if (bookId == null) {
+            book.setCreateTime(book.getUpdateTime());
+            book.setIsDeleted(0);
+            bookMapper.edit(book);
+            return book.getId();
+        } else {
+            if (bookMapper.getById(bookId) == null) {
+                throw new RuntimeException("书籍不存在");
+            }
+            book.setId(bookId);
+            bookMapper.edit(book);
+            return bookId;
+        }
+    }
+
     public int deleteBook(BigInteger id) {
         if (id == null) {
             return 0;
