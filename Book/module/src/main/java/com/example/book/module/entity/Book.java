@@ -11,6 +11,8 @@ public class Book {
     private BigInteger id;
     private String images;
     private String bookTitle;
+    private BigInteger categoryId;
+    private String bookCategory;
     private Integer bookRating;
     private String bookReview;
     private Integer createTime;

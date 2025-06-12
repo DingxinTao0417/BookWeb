@@ -1,7 +1,9 @@
 package com.example.book.module.service;
 
 import com.example.book.module.entity.Book;
+import com.example.book.module.entity.Category;
 import com.example.book.module.mapper.BookMapper;
+import com.example.book.module.mapper.CategoryMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -13,24 +15,62 @@ public class BookService {
 
     @Resource
     private BookMapper bookMapper;
+    @Resource
+    private CategoryMapper categoryMapper;
 
     public Book getBookInfoById(BigInteger id) {
         if (id == null) {
             return null;
         }
-        return bookMapper.getById(id);
+        Book book = bookMapper.getById(id);
+        if (book == null) {
+            return null;
+        }
+
+        String categoryName = categoryMapper.getCategoryNameById(book.getCategoryId());
+        Book bookReturn = new Book();
+        bookReturn.setId(book.getId());
+        bookReturn.setImages(book.getImages());
+        bookReturn.setBookTitle(book.getBookTitle());
+        bookReturn.setBookRating(book.getBookRating());
+        bookReturn.setBookReview(book.getBookReview());
+        bookReturn.setCreateTime(book.getCreateTime());
+        bookReturn.setUpdateTime(book.getUpdateTime());
+        bookReturn.setBookCategory(categoryName);
+
+        return bookReturn;
     }
 
     public Book extractBookInfoById(BigInteger id) {
         if (id == null) {
             return null;
         }
-        return bookMapper.extractById(id);
+        Book book = bookMapper.extractById(id);
+        if (book == null) {
+            return null;
+        }
+
+        String categoryName = categoryMapper.getCategoryNameById(book.getCategoryId());
+        Book bookReturn = new Book();
+        bookReturn.setId(book.getId());
+        bookReturn.setImages(book.getImages());
+        bookReturn.setBookTitle(book.getBookTitle());
+        bookReturn.setBookRating(book.getBookRating());
+        bookReturn.setBookReview(book.getBookReview());
+        bookReturn.setCreateTime(book.getCreateTime());
+        bookReturn.setUpdateTime(book.getUpdateTime());
+        bookReturn.setBookCategory(categoryName);
+
+        return bookReturn;
     }
 
     public List<Book> getAllBookInfo() {
         return bookMapper.getAll();
     }
+
+    public List<Category> getAllCategory()  {return categoryMapper.getAllCategory();}
+
+    public String getCategoryNameById(BigInteger id) {return categoryMapper.getCategoryNameById(id);}
 
     public List<Book> getBookPageByOffset(int offset, int limit) {
         if (offset < 0 || limit < 0) {

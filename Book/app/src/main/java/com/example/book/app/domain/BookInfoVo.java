@@ -13,4 +13,5 @@ public class BookInfoVo {
     private String bookTitle;
     private Integer bookRating;
     private String bookReview;
+    private String bookCategory;
 }

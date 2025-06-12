@@ -10,10 +10,9 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import com.example.book.app.domain.BookInfoVo;
-import com.example.book.app.domain.BookListDetailsVo;
-import com.example.book.app.domain.BookListVo;
+import com.example.book.app.domain.*;
 import com.example.book.module.entity.Book;
+import com.example.book.module.entity.Category;
 import com.example.book.module.service.BookService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +40,7 @@ public class BookController {
         bookInfoVo.setBookTitle(book.getBookTitle());
         bookInfoVo.setBookRating(book.getBookRating());
         bookInfoVo.setBookReview(book.getBookReview());
+        bookInfoVo.setBookCategory(book.getBookCategory());
         int timestamp = book.getCreateTime();
         LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(timestamp), ZoneId.systemDefault());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -72,6 +72,10 @@ public class BookController {
             bookListDetailsVo.setImage(book.getImages().split("\\$")[0]);
             bookListDetailsVo.setBookTitle(book.getBookTitle());
             bookListDetailsVo.setBookRating(book.getBookRating());
+            bookListDetailsVo.setBookCategory(book.getBookCategory());
+
+            String categoryName = this.bookService.getCategoryNameById(book.getCategoryId());
+            bookListDetailsVo.setBookCategory(categoryName);
             bookListDetailsVoList.add(bookListDetailsVo);
         }
 
@@ -79,5 +83,27 @@ public class BookController {
         bookListVo.setList(bookListDetailsVoList);
         bookListVo.setIsEnd(isEnd);
         return bookListVo;
+    }
+
+    @RequestMapping({"/book/category"})
+    public BookCategoryListVo categoryAll() {
+        List<Category> categoryList= this.bookService.getAllCategory();
+
+        List<BookCategoryDetailsVo> bookCategoryVoList = new ArrayList();
+        Iterator var3 = categoryList.iterator();
+
+        while(var3.hasNext()) {
+            Category category = (Category)var3.next();
+            BookCategoryDetailsVo categoryDetailsVo = new BookCategoryDetailsVo();
+            categoryDetailsVo.setCategoryId(category.getId());
+            categoryDetailsVo.setCategoryName(category.getCategoryName());
+            categoryDetailsVo.setCategoryImages(category.getCategoryImages().split("\\$")[0]);
+
+            bookCategoryVoList.add(categoryDetailsVo);
+        }
+
+        BookCategoryListVo bookCategoryListVo = new BookCategoryListVo();
+        bookCategoryListVo.setList(bookCategoryVoList);
+        return bookCategoryListVo;
     }
 }

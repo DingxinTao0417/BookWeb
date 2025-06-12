@@ -12,4 +12,5 @@ public class BookListDetailsVo {
     private String image;
     private String bookTitle;
     private Integer bookRating;
+    private String bookCategory;
 }
