@@ -2,6 +2,7 @@ package com.example.book.console.controller;
 
 import com.example.book.console.domain.*;
 import com.example.book.module.entity.Book;
+import com.example.book.module.entity.Category;
 import com.example.book.module.service.BookService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +31,11 @@ public class BookController {
     public ConsoleStatusVo bookCreate(@RequestParam(name = "images") String images,
                                       @RequestParam(name = "bookTitle") String bookTitle,
                                       @RequestParam(name = "bookRating") Integer bookRating,
-                                      @RequestParam(name = "bookReview") String bookReview) {
+                                      @RequestParam(name = "bookReview") String bookReview,
+                                      @RequestParam(name = "categoryId") BigInteger categoryId ) {
         ConsoleStatusVo consoleStatusVo = new ConsoleStatusVo();
         try {
-            BigInteger bookId = bookService.editBook(null, images, bookTitle.trim(), bookRating, bookReview);
+            BigInteger bookId = bookService.editBook(null, images, bookTitle.trim(), bookRating, bookReview, categoryId);
             consoleStatusVo.setBookId(bookId);
             return consoleStatusVo;
         } catch (RuntimeException e){
@@ -47,10 +49,11 @@ public class BookController {
                                       @RequestParam(name = "images") String images,
                                       @RequestParam(name = "bookTitle") String bookTitle,
                                       @RequestParam(name = "bookRating") Integer bookRating,
-                                      @RequestParam(name = "bookReview") String bookReview) {
+                                      @RequestParam(name = "bookReview") String bookReview,
+                                      @RequestParam(name = "categoryId") BigInteger categoryId) {
         ConsoleStatusVo consoleStatusVo = new ConsoleStatusVo();
         try {
-            BigInteger returnedBookId = bookService.editBook(null, images, bookTitle.trim(), bookRating, bookReview);
+            BigInteger returnedBookId = bookService.editBook(null, images, bookTitle.trim(), bookRating, bookReview, categoryId);
             consoleStatusVo.setBookId(returnedBookId);
             return consoleStatusVo;
         } catch (RuntimeException e){
@@ -78,6 +81,7 @@ public class BookController {
         consoleInfoVo.setBookTitle(book.getBookTitle());
         consoleInfoVo.setBookRating(book.getBookRating());
         consoleInfoVo.setBookReview(book.getBookReview());
+        consoleInfoVo.setBookCategory(book.getBookCategory());
         int timestamp = book.getCreateTime();
         LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(timestamp), ZoneId.systemDefault());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -109,6 +113,7 @@ public class BookController {
             consoleListDetailsVo.setImage(book.getImages().split("\\$")[0]);
             consoleListDetailsVo.setBookTitle(book.getBookTitle());
             consoleListDetailsVo.setBookRating(book.getBookRating());
+            consoleListDetailsVo.setBookCategory(book.getBookCategory());
 
             int create_timestamp = book.getCreateTime();
             LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(create_timestamp), ZoneId.systemDefault());
@@ -131,6 +136,30 @@ public class BookController {
         consoleListVo.setPageSize(pageSize);
         consoleListVo.setTotal(total);
         return consoleListVo;
+    }
+    
+    @RequestMapping({"/book/category"})
+    public ConsoleCategoryListVo categoryAll(@RequestParam(name = "page", defaultValue = "1") int page,
+                                             @RequestParam(name = "pageSize", defaultValue = "10") int pageSize) {
+        int offset = (page - 1) * pageSize;
+        List<Category> categoryList = this.bookService.getCategoryPageByOffset(offset, pageSize);
+
+        List<ConsoleCategoryDetailsVo> bookCategoryVoList = new ArrayList();
+        Iterator var3 = categoryList.iterator();
+
+        while(var3.hasNext()) {
+            Category category = (Category)var3.next();
+            ConsoleCategoryDetailsVo categoryDetailsVo = new ConsoleCategoryDetailsVo();
+            categoryDetailsVo.setCategoryId(category.getId());
+            categoryDetailsVo.setCategoryName(category.getCategoryName());
+            categoryDetailsVo.setCategoryImages(category.getCategoryImages().split("\\$")[0]);
+
+            bookCategoryVoList.add(categoryDetailsVo);
+        }
+
+        ConsoleCategoryListVo bookCategoryListVo = new ConsoleCategoryListVo();
+        bookCategoryListVo.setList(bookCategoryVoList);
+        return bookCategoryListVo;
     }
 
 }

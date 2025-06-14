@@ -41,6 +41,7 @@
                 <if test="book.bookTitle != null and book.bookTitle != ''">book_title,</if>
                 <if test="book.bookRating != null">book_rating,</if>
                 <if test="book.bookReview != null and book.bookReview != ''">book_review,</if>
+                <if test="book.categoryId != null">category_id,</if>
                 <if test="book.createTime != null">create_time,</if>
                 <if test="book.updatetime != null">update_time,</if>
                 is_deleted
@@ -49,6 +50,7 @@
                 <if test="book.bookTitle != null and book.bookTitle != ''">#{book.bookTitle},</if>
                 <if test="book.bookRating != null">#{book.bookRating},</if>
                 <if test="book.bookReview != null and book.bookReview != ''">#{book.bookReview},</if>
+                <if test="book.categoryId != null">#{book.categoryId},</if>
                 <if test="book.createTime != null">#{book.createTime},</if>
                 <if test="book.updatetime != null">#{book.updateTime},</if>
                 #{book.isDeleted}
@@ -62,6 +64,7 @@
                 <if test="book.bookTitle != null and book.bookTitle != ''">book_title = #{book.bookTitle},</if>
                 <if test="book.bookRating != null">book_rating = #{book.bookRating},</if>
                 <if test="book.bookReview != null and book.bookReview != ''">book_review = #{book.bookReview},</if>
+                <if test="book.categoryId != null">category_id = #{book.categoryId},</if>
                 <if test="book.updatetime != null">update_time = #{book.updateTime}</if>
                 where id = #{book.id}
             </otherwise>

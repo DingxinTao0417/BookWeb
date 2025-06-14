@@ -12,6 +12,7 @@ public class ConsoleListDetailsVo {
     private String image;
     private String bookTitle;
     private Integer bookRating;
+    private String bookCategory;
     private String createTime;
     private String updateTime;
 }

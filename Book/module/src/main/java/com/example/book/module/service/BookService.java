@@ -90,6 +90,18 @@ public class BookService {
         return bookMapper.getTotal();
     }
 
+    public List<Category> getCategoryPageByOffset(int offset, int limit) {
+        if (offset < 0 || limit < 0) {
+            return null;
+        }
+        return categoryMapper.getByOffset(offset, limit);
+    }
+
+    public int getCategoryTotal() {
+        return categoryMapper.getTotal();
+    }
+
+
     public Result<Integer> createBook(String images, String bookTitle, Integer bookRating, String bookReview) {
         int timestamp = (int) (System.currentTimeMillis() / 1000);
         Book book = new Book();
@@ -152,8 +164,12 @@ public class BookService {
         }
     }
 
-    public BigInteger editBook(BigInteger bookId, String images, String bookTitle, Integer bookRating, String bookReview) {
+    public BigInteger editBook(BigInteger bookId, String images, String bookTitle, Integer bookRating, String bookReview, BigInteger categoryId) {
         validateParameters(images, bookTitle, bookRating, bookReview);
+
+        if (categoryMapper.getCategoryNameById(categoryId) == null) {
+            throw new RuntimeException("分类不存在");
+        }
 
         int timestamp = (int) (System.currentTimeMillis() / 1000);
         Book book = new Book();
@@ -162,6 +178,8 @@ public class BookService {
         book.setBookRating(bookRating);
         book.setBookReview(bookReview);
         book.setUpdateTime(timestamp);
+        book.setBookCategory(categoryMapper.getCategoryNameById(book.getCategoryId()));
+        book.setCategoryId(categoryId);
 
         if (bookId == null) {
             book.setCreateTime(book.getUpdateTime());

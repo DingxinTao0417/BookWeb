@@ -1,5 +1,6 @@
 package com.example.book.module.mapper;
 
+import com.example.book.module.entity.Book;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Mapper;
@@ -16,4 +17,10 @@ public interface CategoryMapper {
 
     @Select("SELECT * FROM category")
     List<Category> getAllCategory();
+
+    @Select("select count(*) from categpru where is_deleted = 0")
+    int getTotal();
+
+    List<Category> getByOffset(@Param("offset") Integer offset, @Param("limit") Integer limit);
+
 }
