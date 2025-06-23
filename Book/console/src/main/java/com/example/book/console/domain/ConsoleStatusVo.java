@@ -9,6 +9,7 @@ import java.math.BigInteger;
 @Accessors(chain = true)
 public class ConsoleStatusVo {
     private BigInteger bookId;
+    private BigInteger categoryId;
     private String error;
     private String status;
 }

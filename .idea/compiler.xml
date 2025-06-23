@@ -11,12 +11,16 @@
         <module name="module" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="module (1)" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="app" options="-parameters" />
       <module name="console" options="-parameters" />
       <module name="module" options="-parameters" />
+      <module name="module (1)" options="-parameters" />
     </option>
   </component>
 </project>

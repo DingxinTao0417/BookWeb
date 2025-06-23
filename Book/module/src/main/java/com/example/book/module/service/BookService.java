@@ -167,9 +167,9 @@ public class BookService {
     public BigInteger editBook(BigInteger bookId, String images, String bookTitle, Integer bookRating, String bookReview, BigInteger categoryId) {
         validateParameters(images, bookTitle, bookRating, bookReview);
 
-        if (categoryMapper.getCategoryNameById(categoryId) == null) {
-            throw new RuntimeException("分类不存在");
-        }
+        //if (categoryMapper.getCategoryNameById(categoryId) == null) {
+        //    throw new RuntimeException("分类不存在");
+        //}
 
         int timestamp = (int) (System.currentTimeMillis() / 1000);
         Book book = new Book();
@@ -178,7 +178,7 @@ public class BookService {
         book.setBookRating(bookRating);
         book.setBookReview(bookReview);
         book.setUpdateTime(timestamp);
-        book.setBookCategory(categoryMapper.getCategoryNameById(book.getCategoryId()));
+        //book.setBookCategory(categoryMapper.getCategoryNameById(book.getCategoryId()));
         book.setCategoryId(categoryId);
 
         if (bookId == null) {
