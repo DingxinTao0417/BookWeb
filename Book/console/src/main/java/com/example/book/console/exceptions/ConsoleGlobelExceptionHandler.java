@@ -1,4 +1,4 @@
-package com.example.book.module.exceptions;
+package com.example.book.console.exceptions;
 
 import com.example.book.module.service.Result;
 import lombok.extern.slf4j.Slf4j;
