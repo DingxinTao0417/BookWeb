@@ -29,6 +29,9 @@ public interface BookMapper {
     @Update("update book set is_deleted=1, update_time=#{time} where id=#{id} limit 1")
     int delete(@Param("id") BigInteger id, @Param("time") Integer time);
 
+    @Update("update book set is_deleted=1, update_time=#{time} where category_id=#{categoryId} limit 1")
+    int deleteByCategoryId(@Param("categoryId") BigInteger categoryId, @Param("time") Integer time);
+
     // console分页查询
     List<Book> getByOffset(@Param("offset") Integer offset, @Param("limit") Integer limit, @Param("keyword") String keyword);
 

@@ -39,6 +39,10 @@ public class BookController {
                                       @RequestParam(name = "categoryId") BigInteger categoryId ) {
         ConsoleStatusVo consoleStatusVo = new ConsoleStatusVo();
         try {
+            if (!bookService.categoryExists(categoryId)) {
+                consoleStatusVo.setError("分类不存在");
+                return consoleStatusVo;
+            }
             BigInteger bookId = bookService.editBook(null, images, bookTitle.trim(), bookRating, bookReview, categoryId);
             consoleStatusVo.setBookId(bookId);
             return consoleStatusVo;
@@ -57,6 +61,10 @@ public class BookController {
                                       @RequestParam(name = "categoryId") BigInteger categoryId) {
         ConsoleStatusVo consoleStatusVo = new ConsoleStatusVo();
         try {
+            if (!bookService.categoryExists(categoryId)) {
+                consoleStatusVo.setError("分类不存在");
+                return consoleStatusVo;
+            }
             BigInteger returnedBookId = bookService.editBook(null, images, bookTitle.trim(), bookRating, bookReview, categoryId);
             consoleStatusVo.setBookId(returnedBookId);
             return consoleStatusVo;
@@ -117,7 +125,12 @@ public class BookController {
             consoleListDetailsVo.setImage(book.getImages().split("\\$")[0]);
             consoleListDetailsVo.setBookTitle(book.getBookTitle());
             consoleListDetailsVo.setBookRating(book.getBookRating());
-            consoleListDetailsVo.setBookCategory(book.getBookCategory());
+            String categoryName = this.bookService.getCategoryNameById(book.getCategoryId());
+            if (categoryName == null) {
+                consoleListDetailsVo.setBookCategory("未知分类");
+            } else {
+                consoleListDetailsVo.setBookCategory(categoryName);
+            }
 
             int create_timestamp = book.getCreateTime();
             LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(create_timestamp), ZoneId.systemDefault());
@@ -140,65 +153,6 @@ public class BookController {
         consoleListVo.setPageSize(pageSize);
         consoleListVo.setTotal(total);
         return consoleListVo;
-    }
-
-    @RequestMapping("/category/add")
-    public BigInteger categoryCreate(@RequestParam(name = "images") String images,
-                                          @RequestParam(name = "categoryName") String categoryName) {
-        ConsoleStatusVo consoleStatusVo = new ConsoleStatusVo();
-        try {
-            BigInteger returnedCategoryId = categoryService.createCategory(images, categoryName);
-            return returnedCategoryId;
-        } catch (RuntimeException e){
-            return BigInteger.ZERO;
-        }
-    }
-
-    @RequestMapping("/category/update")
-    public ConsoleStatusVo categoryUpdate(@RequestParam(name = "categoryId") BigInteger categoryId,
-                                      @RequestParam(name = "images") String images,
-                                      @RequestParam(name = "categoryName") String categoryName) {
-        ConsoleStatusVo consoleStatusVo = new ConsoleStatusVo();
-        try {
-            BigInteger returnedCategoryId = categoryService.updateCategory(categoryId, images, categoryName);
-            consoleStatusVo.setCategoryId(returnedCategoryId);
-            return consoleStatusVo;
-        } catch (RuntimeException e){
-            consoleStatusVo.setError(e.getMessage());
-            return consoleStatusVo;
-        }
-    }
-
-    @RequestMapping("/category/delete")
-    public ConsoleStatusVo categoryDelete(@RequestParam(name = "categoryId") BigInteger categoryId) {
-        int status = categoryService.delete(categoryId);
-        ConsoleStatusVo consoleInfoVo = new ConsoleStatusVo();
-        consoleInfoVo.setStatus(1 == status ? "成功" : "失败");
-        return consoleInfoVo;
-    }
-
-    @RequestMapping({"/category/list"})
-    public ConsoleCategoryListVo categoryAll(@RequestParam(name = "page", defaultValue = "1") int page,
-                                             @RequestParam(name = "pageSize", defaultValue = "10") int pageSize) {
-        int offset = (page - 1) * pageSize;
-        List<Category> categoryList = this.categoryService.getByOffset(offset, pageSize);
-
-        List<ConsoleCategoryDetailsVo> bookCategoryVoList = new ArrayList();
-        Iterator var3 = categoryList.iterator();
-
-        while(var3.hasNext()) {
-            Category category = (Category)var3.next();
-            ConsoleCategoryDetailsVo categoryDetailsVo = new ConsoleCategoryDetailsVo();
-            categoryDetailsVo.setCategoryId(category.getId());
-            categoryDetailsVo.setCategoryName(category.getCategoryName());
-            categoryDetailsVo.setCategoryImages(category.getCategoryImages().split("\\$")[0]);
-
-            bookCategoryVoList.add(categoryDetailsVo);
-        }
-
-        ConsoleCategoryListVo bookCategoryListVo = new ConsoleCategoryListVo();
-        bookCategoryListVo.setList(bookCategoryVoList);
-        return bookCategoryListVo;
     }
 
 }

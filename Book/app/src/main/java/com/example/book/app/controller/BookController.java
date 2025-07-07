@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.example.book.app.domain.*;
+import com.example.book.app.exceptions.AppGlobelExceptionHandler;
 import com.example.book.module.entity.Book;
 import com.example.book.module.entity.Category;
 import com.example.book.module.service.BookService;
@@ -72,10 +73,13 @@ public class BookController {
             bookListDetailsVo.setImage(book.getImages().split("\\$")[0]);
             bookListDetailsVo.setBookTitle(book.getBookTitle());
             bookListDetailsVo.setBookRating(book.getBookRating());
-            bookListDetailsVo.setBookCategory(book.getBookCategory());
 
             String categoryName = this.bookService.getCategoryNameById(book.getCategoryId());
-            bookListDetailsVo.setBookCategory(categoryName);
+            if (categoryName == null) {
+                bookListDetailsVo.setBookCategory("未知分类");
+            } else {
+                bookListDetailsVo.setBookCategory(categoryName);
+            }
             bookListDetailsVoList.add(bookListDetailsVo);
         }
 

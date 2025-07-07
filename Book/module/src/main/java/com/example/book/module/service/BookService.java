@@ -196,6 +196,13 @@ public class BookService {
         }
     }
 
+    public boolean categoryExists(BigInteger categoryId) {
+        if ((categoryMapper.getCategoryNameById(categoryId) != null) || (categoryMapper.getCategoryNameById(categoryId).isEmpty())) {
+            return true;
+        }
+        return false;
+    }
+
     public int deleteBook(BigInteger id) {
         if (id == null) {
             return 0;
