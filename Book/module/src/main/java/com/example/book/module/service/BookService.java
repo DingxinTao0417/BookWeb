@@ -209,4 +209,9 @@ public class BookService {
         }
         return bookMapper.delete(id, (int) (System.currentTimeMillis() / 1000));
     }
+
+    public void deleteByCategoryId(BigInteger categoryId, Integer time) {
+        bookMapper.deleteByCategoryId(categoryId, time);
+    }
+
 }
