@@ -3,6 +3,7 @@ package com.example.book.module.service;
 import com.example.book.module.entity.Category;
 import com.example.book.module.mapper.BookMapper;
 import com.example.book.module.mapper.CategoryMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,6 +24,7 @@ public class CategoryService {
     @Resource
     private CategoryMapper categoryMapper;
 
+    @Autowired
     private BookService bookService;
 
     public BigInteger createCategory(String images, String categoryName) {
