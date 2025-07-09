@@ -21,10 +21,9 @@ import java.util.List;
 public class CategoryService {
 
     @Resource
-    private BookMapper bookMapper;
-
-    @Resource
     private CategoryMapper categoryMapper;
+
+    private BookService bookService;
 
     public BigInteger createCategory(String images, String categoryName) {
         Category category = new Category();
@@ -54,7 +53,7 @@ public class CategoryService {
             return 0;
         }
         int time = (int) (System.currentTimeMillis() / 1000);
-        bookMapper.deleteByCategoryId(id, time);
+        bookService.deleteByCategoryId(id, time);
         return categoryMapper.delete(id);
     }
 
