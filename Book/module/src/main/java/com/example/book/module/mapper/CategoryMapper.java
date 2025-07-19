@@ -21,13 +21,13 @@ public interface CategoryMapper{
     @Update("update category set is_deleted=1 where id=#{id} limit 1")
     int delete(@Param("id") BigInteger id);
 
-    @Select("SELECT category_name FROM category WHERE id=#{id}")
+    @Select("SELECT category_name FROM category WHERE id=#{id} limit 99")
     String getCategoryNameById(@Param("id") BigInteger id);
 
-    @Select("SELECT * FROM category")
+    @Select("SELECT * FROM category limit 99")
     List<Category> getAllCategory();
 
-    @Select("select count(*) from category where is_deleted = 0")
+    @Select("select count(*) from category where is_deleted = 0 limit 99")
     int getTotal();
 
     List<Category> getByOffset(@Param("offset") Integer offset, @Param("limit") Integer limit);

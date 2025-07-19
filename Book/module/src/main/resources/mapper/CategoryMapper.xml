@@ -50,6 +50,7 @@
         SELECT id
         FROM category
         WHERE category_name LIKE CONCAT('%', #{keyword}, '%') AND is_deleted = 0
+        LIMIT 99
     </select>
 
 

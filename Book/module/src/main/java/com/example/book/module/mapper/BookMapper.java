@@ -11,13 +11,13 @@ import java.util.List;
 
 @Mapper
 public interface BookMapper {
-    @Select("select * from book WHERE id=#{id} and is_deleted = 0")
+    @Select("select * from book WHERE id=#{id} and is_deleted = 0 limit 99")
     Book getById(@Param("id") BigInteger id);
 
-    @Select("select * from book WHERE id=#{id}")
+    @Select("select * from book WHERE id=#{id} limit 99")
     Book extractById(@Param("id") BigInteger id);
 
-    @Select("select * from book WHERE is_deleted = 0")
+    @Select("select * from book WHERE is_deleted = 0 limit 99")
     List<Book> getAll();
 
     int update(@Param("book") Book book);
