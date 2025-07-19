@@ -32,4 +32,6 @@ public interface CategoryMapper{
 
     List<Category> getByOffset(@Param("offset") Integer offset, @Param("limit") Integer limit);
 
+    List<Long> getCategoryIds(String keyword);
+
 }

@@ -76,14 +76,23 @@ public class BookService {
         if (offset < 0 || limit < 0) {
             return null;
         }
-        return bookMapper.getByOffset(offset, limit, "");
+        return bookMapper.getByOffset(offset, limit, "", "");
     }
 
     public List<Book> getBookPageByOffset(int offset, int limit, String keyword) {
         if (offset < 0 || limit < 0 || keyword == null) {
             return null;
         }
-        return bookMapper.getByOffset(offset, limit, keyword);
+        StringBuilder sb = new StringBuilder();
+        List<Long> categoryIds = categoryMapper.getCategoryIds(keyword);
+        for (int i = 0; i < categoryIds.size(); i++) {
+            sb.append(categoryIds.get(i));
+            if (i < categoryIds.size() - 1) {
+                sb.append(",");
+            }
+        }
+        String ids = sb.toString();
+        return bookMapper.getByOffset(offset, limit, keyword, ids);
     }
 
     public int getBookTotal() {

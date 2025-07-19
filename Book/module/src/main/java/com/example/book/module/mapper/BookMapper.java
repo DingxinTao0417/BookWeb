@@ -33,7 +33,7 @@ public interface BookMapper {
     int deleteByCategoryId(@Param("categoryId") BigInteger categoryId, @Param("time") Integer time);
 
     // console分页查询
-    List<Book> getByOffset(@Param("offset") Integer offset, @Param("limit") Integer limit, @Param("keyword") String keyword);
+    List<Book> getByOffset(@Param("offset") Integer offset, @Param("limit") Integer limit, @Param("keyword") String keyword, @Param("ids") String ids);
 
     // console total查询
     @Select("select count(*) from book where is_deleted = 0")

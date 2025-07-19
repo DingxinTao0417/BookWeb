@@ -46,4 +46,11 @@
         limit #{limit} offset #{offset}
     </select>
 
+    <select id="getCategoryIds" resultType="java.lang.Long">
+        SELECT id
+        FROM category
+        WHERE category_name LIKE CONCAT('%', #{keyword}, '%') AND is_deleted = 0
+    </select>
+
+
 </mapper>

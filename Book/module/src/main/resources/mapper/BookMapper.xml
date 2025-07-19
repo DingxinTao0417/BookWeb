@@ -77,10 +77,9 @@
         <if test = "keyword != null and keyword != ''">
             AND (
                 book_title LIKE CONCAT('%', #{keyword}, '%')
-                OR category_id IN (
-                SELECT id FROM category
-                WHERE category_name LIKE CONCAT('%', #{keyword}, '%') AND is_deleted = 0
-                )
+                <if test="ids != null and ids != ''">
+                    OR category_id IN (${ids})
+                </if>
             )
         </if>
         order by id desc
