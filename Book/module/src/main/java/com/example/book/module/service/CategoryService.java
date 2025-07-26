@@ -67,6 +67,8 @@ public class CategoryService {
         return categoryMapper.getAllCategory();
     }
 
+    public List<Category> getValidCategory() { return categoryMapper.getValidCategory(); }
+
     public List<Category> getByOffset(Integer offset, Integer limit){
         return categoryMapper.getByOffset(offset, limit);
     }

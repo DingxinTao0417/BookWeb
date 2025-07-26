@@ -27,6 +27,9 @@ public interface CategoryMapper{
     @Select("SELECT * FROM category limit 99")
     List<Category> getAllCategory();
 
+    @Select("SELECT * FROM category WHERE is_deleted = 0 limit 99")
+    List<Category> getValidCategory();
+
     @Select("select count(*) from category where is_deleted = 0 limit 99")
     int getTotal();
 

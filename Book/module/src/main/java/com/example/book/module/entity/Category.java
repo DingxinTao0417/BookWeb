@@ -35,6 +35,8 @@ public class Category implements Serializable {
      */
     private String categoryName;
 
+    private BigInteger parentId;
+
     private Integer isDeleted;
 
 

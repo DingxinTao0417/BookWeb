@@ -67,7 +67,7 @@ public class CategoryController {
     public ConsoleCategoryListVo categoryAll(@RequestParam(name = "page", defaultValue = "1") int page,
                                              @RequestParam(name = "pageSize", defaultValue = "10") int pageSize) {
         int offset = (page - 1) * pageSize;
-        List<Category> categoryList = this.categoryService.getByOffset(offset, pageSize);
+        List<Category> categoryList = this.categoryService.getAllCategory();
 
         List<ConsoleCategoryDetailsVo> bookCategoryVoList = new ArrayList();
         Iterator var3 = categoryList.iterator();
@@ -78,6 +78,7 @@ public class CategoryController {
             categoryDetailsVo.setCategoryId(category.getId());
             categoryDetailsVo.setCategoryName(category.getCategoryName());
             categoryDetailsVo.setCategoryImages(category.getCategoryImages().split("\\$")[0]);
+            categoryDetailsVo.setParentId(category.getParentId());
 
             bookCategoryVoList.add(categoryDetailsVo);
         }

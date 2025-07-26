@@ -20,10 +20,6 @@ public interface BookMapper {
     @Select("select * from book WHERE is_deleted = 0 limit 99")
     List<Book> getAll();
 
-    int update(@Param("book") Book book);
-
-    int insert(@Param("book") Book book);
-
     int edit(@Param("book") Book book);
 
     @Update("update book set is_deleted=1, update_time=#{time} where id=#{id} limit 1")

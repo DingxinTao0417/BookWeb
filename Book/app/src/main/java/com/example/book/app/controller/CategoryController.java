@@ -32,7 +32,7 @@ public class CategoryController {
 
     @RequestMapping({"/category/list"})
     public BookCategoryListVo categoryAll() {
-        List<Category> categoryList= this.categoryService.getAllCategory();
+        List<Category> categoryList= this.categoryService.getValidCategory();
 
         List<BookCategoryDetailsVo> bookCategoryVoList = new ArrayList();
         Iterator var3 = categoryList.iterator();
@@ -43,7 +43,7 @@ public class CategoryController {
             categoryDetailsVo.setCategoryId(category.getId());
             categoryDetailsVo.setCategoryName(category.getCategoryName());
             categoryDetailsVo.setCategoryImages(category.getCategoryImages().split("\\$")[0]);
-
+            categoryDetailsVo.setParentId(category.getParentId());
             bookCategoryVoList.add(categoryDetailsVo);
         }
 

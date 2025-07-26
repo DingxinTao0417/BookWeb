@@ -11,4 +11,5 @@ public class ConsoleCategoryDetailsVo {
     private BigInteger categoryId;
     private String categoryName;
     private String categoryImages;
+    private BigInteger parentId;
 }

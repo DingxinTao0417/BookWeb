@@ -5,21 +5,25 @@
     <!-- 插入 -->
     <insert id="insert" parameterType="com.example.book.module.entity.Category">
         insert into category (
-                <if test="category.categoryImages != null and category.categoryImages != ''">
-                    category_images,
-                </if>
-                <if test="category.categoryName != null and category.categoryName != ''">
-                    category_name,
-                </if>
-                is_deleted
+        <if test="category.categoryImages != null and category.categoryImages != ''">
+            category_images,
+        </if>
+        <if test="category.categoryName != null and category.categoryName != ''">
+            category_name,
+        </if>
+        <if test="category.parentId != null">
+            parent_id,
+        </if>
+        is_deleted
         ) values (
-                <if test="category.categoryImages != null and category.categoryImages != ''">
-                    #{category.categoryImages},
-                </if>
-                <if test="category.categoryName != null and category.categoryName != ''">
-                    #{category.categoryName},
-                </if>
-                #{category.isDeleted}
+        <if test="category.categoryImages != null and category.categoryImages != ''">
+            #{categoryImages},
+        </if>
+        <if test="category.categoryName != null and category.categoryName != ''">
+            #{categoryName},
+        </if>
+        #{parentId},
+        #{isDeleted}
         )
     </insert>
 
@@ -27,16 +31,15 @@
     <update id="update" parameterType="com.example.book.module.entity.Category">
         update category
         <set>
-                id = #{category.id},
-
-                    <if test="category.categoryImages != null and category.categoryImages != ''">
-                        category_images = #{category.categoryImages},
-                    </if>
-                    <if test="category.categoryName != null and category.categoryName != ''">
-                        category_name = #{category.categoryName},
-                    </if>
+            <if test="category.categoryImages != null and category.categoryImages != ''">
+                category_images = #{categoryImages},
+            </if>
+            <if test="category.categoryName != null and category.categoryName != ''">
+                category_name = #{categoryName},
+            </if>
+            parent_id = #{parentId}
         </set>
-        where id = #{category.id}
+        where id = #{id}
     </update>
 
     <select id="getByOffset" resultType="com.example.book.module.entity.Category">
@@ -52,6 +55,5 @@
         WHERE category_name LIKE CONCAT('%', #{keyword}, '%') AND is_deleted = 0
         LIMIT 99
     </select>
-
 
 </mapper>
