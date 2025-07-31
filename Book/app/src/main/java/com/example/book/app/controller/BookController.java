@@ -89,25 +89,4 @@ public class BookController {
         return bookListVo;
     }
 
-    @RequestMapping({"/book/category"})
-    public BookCategoryListVo categoryAll() {
-        List<Category> categoryList= this.bookService.getAllCategory();
-
-        List<BookCategoryDetailsVo> bookCategoryVoList = new ArrayList();
-        Iterator var3 = categoryList.iterator();
-
-        while(var3.hasNext()) {
-            Category category = (Category)var3.next();
-            BookCategoryDetailsVo categoryDetailsVo = new BookCategoryDetailsVo();
-            categoryDetailsVo.setCategoryId(category.getId());
-            categoryDetailsVo.setCategoryName(category.getCategoryName());
-            categoryDetailsVo.setCategoryImages(category.getCategoryImages().split("\\$")[0]);
-
-            bookCategoryVoList.add(categoryDetailsVo);
-        }
-
-        BookCategoryListVo bookCategoryListVo = new BookCategoryListVo();
-        bookCategoryListVo.setList(bookCategoryVoList);
-        return bookCategoryListVo;
-    }
 }

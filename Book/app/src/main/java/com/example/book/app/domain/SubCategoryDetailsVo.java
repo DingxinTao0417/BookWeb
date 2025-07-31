@@ -4,12 +4,11 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.math.BigInteger;
-import java.util.List;
 
 @Data
 @Accessors(chain = true)
-public class BookCategoryDetailsVo {
+public class SubCategoryDetailsVo {
     private BigInteger categoryId;
     private String categoryName;
-    private List<SubCategoryDetailsVo> subCategoryDetails;
+    private String categoryImages;
 }

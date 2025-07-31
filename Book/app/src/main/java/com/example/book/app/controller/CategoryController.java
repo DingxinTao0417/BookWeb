@@ -42,8 +42,9 @@ public class CategoryController {
             BookCategoryDetailsVo categoryDetailsVo = new BookCategoryDetailsVo();
             categoryDetailsVo.setCategoryId(category.getId());
             categoryDetailsVo.setCategoryName(category.getCategoryName());
-            categoryDetailsVo.setCategoryImages(category.getCategoryImages().split("\\$")[0]);
-            categoryDetailsVo.setParentId(category.getParentId());
+
+            //categoryDetailsVo.setCategoryImages(category.getCategoryImages().split("\\$")[0]);
+            //categoryDetailsVo.setParentId(category.getParentId());
             bookCategoryVoList.add(categoryDetailsVo);
         }
 
