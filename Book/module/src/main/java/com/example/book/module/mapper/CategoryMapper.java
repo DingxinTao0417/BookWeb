@@ -37,4 +37,10 @@ public interface CategoryMapper{
 
     List<Long> getCategoryIds(String keyword);
 
+    @Select("SELECT * FROM category where is_deleted = 0 AND id=#{parentId}")
+    List<Category> getParentCategory(@Param("parentId") BigInteger parentId);
+
+    @Select("SELECT * FROM category where is_deleted = 0 AND parent_id=#{parentId} limit 99")
+    List<Category> getByParentId(@Param("parentId") BigInteger parentId);
+
 }

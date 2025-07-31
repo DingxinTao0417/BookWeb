@@ -67,7 +67,15 @@ public class CategoryService {
         return categoryMapper.getAllCategory();
     }
 
-    public List<Category> getValidCategory() { return categoryMapper.getValidCategory(); }
+    public List<Category> getValidCategory(BigInteger parentId) {
+        if (parentId == null) {
+            return categoryMapper.getValidCategory();
+        } else {
+            return categoryMapper.getParentCategory(parentId);
+        }
+    }
+
+    public List<Category> getByParentId(BigInteger parentId) { return categoryMapper.getByParentId(parentId); }
 
     public Integer getTotal() { return categoryMapper.getTotal(); }
 

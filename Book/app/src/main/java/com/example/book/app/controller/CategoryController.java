@@ -31,25 +31,34 @@ public class CategoryController {
     }
 
     @RequestMapping({"/category/list"})
-    public BookCategoryListVo categoryAll() {
-        List<Category> categoryList= this.categoryService.getValidCategory();
+    public BookCategoryListVo categoryAll(@RequestParam(name = "parentId", required = false) BigInteger parentId) {
+        List<Category> parentCategories= this.categoryService.getValidCategory(parentId);
 
-        List<BookCategoryDetailsVo> bookCategoryVoList = new ArrayList();
-        Iterator var3 = categoryList.iterator();
+        List<BookCategoryDetailsVo> bookCategoryList = new ArrayList();
 
-        while(var3.hasNext()) {
-            Category category = (Category)var3.next();
-            BookCategoryDetailsVo categoryDetailsVo = new BookCategoryDetailsVo();
-            categoryDetailsVo.setCategoryId(category.getId());
-            categoryDetailsVo.setCategoryName(category.getCategoryName());
+        for (Category parent : parentCategories) {
+            BookCategoryDetailsVo bookCategoryDetailsVo = new BookCategoryDetailsVo();
+            bookCategoryDetailsVo.setCategoryId(parent.getId());
+            bookCategoryDetailsVo.setCategoryName(parent.getCategoryName());
 
-            //categoryDetailsVo.setCategoryImages(category.getCategoryImages().split("\\$")[0]);
-            //categoryDetailsVo.setParentId(category.getParentId());
-            bookCategoryVoList.add(categoryDetailsVo);
+
+            List<SubCategoryDetailsVo> subCategoryList = new ArrayList();
+
+            List<Category> subCategories = this.categoryService.getByParentId(parent.getId());
+            for (Category subCategory : subCategories) {
+                SubCategoryDetailsVo subCategoryDetailsVo = new SubCategoryDetailsVo();
+                subCategoryDetailsVo.setCategoryId(subCategory.getId());
+                subCategoryDetailsVo.setCategoryName(subCategory.getCategoryName());
+                subCategoryDetailsVo.setCategoryImages(subCategory.getCategoryImages().split("\\$")[0]);
+                subCategoryList.add(subCategoryDetailsVo);
+            }
+
+            bookCategoryDetailsVo.setSubCategoryDetails(subCategoryList);
+            bookCategoryList.add(bookCategoryDetailsVo);
         }
 
         BookCategoryListVo bookCategoryListVo = new BookCategoryListVo();
-        bookCategoryListVo.setList(bookCategoryVoList);
+        bookCategoryListVo.setList(bookCategoryList);
         return bookCategoryListVo;
     }
 }
