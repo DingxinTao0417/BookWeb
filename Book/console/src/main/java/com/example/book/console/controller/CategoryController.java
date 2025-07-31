@@ -28,6 +28,9 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private BookService bookService;
+
     @RequestMapping("/category/add")
     public BigInteger categoryCreate(@RequestParam(name = "images") String images,
                                      @RequestParam(name = "categoryName") String categoryName) {
@@ -58,6 +61,9 @@ public class CategoryController {
     @RequestMapping("/category/delete")
     public ConsoleStatusVo categoryDelete(@RequestParam(name = "categoryId") BigInteger categoryId) {
         int status = categoryService.delete(categoryId);
+        //提到controller层
+        int time = (int) (System.currentTimeMillis() / 1000);
+        bookService.deleteByCategoryId(categoryId, time);
         ConsoleStatusVo consoleInfoVo = new ConsoleStatusVo();
         consoleInfoVo.setStatus(1 == status ? "成功" : "失败");
         return consoleInfoVo;
