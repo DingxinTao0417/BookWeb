@@ -24,8 +24,6 @@ public class CategoryService {
     @Resource
     private CategoryMapper categoryMapper;
 
-    @Autowired
-    private BookService bookService;
 
     public BigInteger createCategory(String images, String categoryName) {
         Category category = new Category();
@@ -54,8 +52,10 @@ public class CategoryService {
         if (id == null) {
             return 0;
         }
-        int time = (int) (System.currentTimeMillis() / 1000);
-        bookService.deleteByCategoryId(id, time);
+
+        //提到controller层
+        //int time = (int) (System.currentTimeMillis() / 1000);
+        //bookService.deleteByCategoryId(id, time);
         return categoryMapper.delete(id);
     }
 
@@ -68,6 +68,10 @@ public class CategoryService {
     }
 
     public List<Category> getValidCategory() { return categoryMapper.getValidCategory(); }
+
+    public Integer getTotal() { return categoryMapper.getTotal(); }
+
+    public List<Long> getCategoryIds(String keyword) { return categoryMapper.getCategoryIds(keyword); }
 
     public List<Category> getByOffset(Integer offset, Integer limit){
         return categoryMapper.getByOffset(offset, limit);

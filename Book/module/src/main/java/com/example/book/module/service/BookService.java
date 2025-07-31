@@ -4,6 +4,7 @@ import com.example.book.module.entity.Book;
 import com.example.book.module.entity.Category;
 import com.example.book.module.mapper.BookMapper;
 import com.example.book.module.mapper.CategoryMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -15,8 +16,9 @@ public class BookService {
 
     @Resource
     private BookMapper bookMapper;
-    @Resource
-    private CategoryMapper categoryMapper;
+
+    @Autowired
+    private CategoryService categoryService;
 
     public Book getBookInfoById(BigInteger id) {
         if (id == null) {
@@ -27,7 +29,7 @@ public class BookService {
             return null;
         }
 
-        String categoryName = categoryMapper.getCategoryNameById(book.getCategoryId());
+        String categoryName = categoryService.getCategoryNameById(book.getCategoryId());
         Book bookReturn = new Book();
         bookReturn.setId(book.getId());
         bookReturn.setImages(book.getImages());
@@ -50,7 +52,7 @@ public class BookService {
             return null;
         }
 
-        String categoryName = categoryMapper.getCategoryNameById(book.getCategoryId());
+        String categoryName = categoryService.getCategoryNameById(book.getCategoryId());
         Book bookReturn = new Book();
         bookReturn.setId(book.getId());
         bookReturn.setImages(book.getImages());
@@ -68,9 +70,9 @@ public class BookService {
         return bookMapper.getAll();
     }
 
-    public List<Category> getAllCategory()  {return categoryMapper.getAllCategory();}
+    public List<Category> getAllCategory()  {return categoryService.getAllCategory();}
 
-    public String getCategoryNameById(BigInteger id) {return categoryMapper.getCategoryNameById(id);}
+    public String getCategoryNameById(BigInteger id) {return categoryService.getCategoryNameById(id);}
 
     public List<Book> getBookPageByOffset(int offset, int limit) {
         if (offset < 0 || limit < 0) {
@@ -84,7 +86,7 @@ public class BookService {
             return null;
         }
         StringBuilder sb = new StringBuilder();
-        List<Long> categoryIds = categoryMapper.getCategoryIds(keyword);
+        List<Long> categoryIds = categoryService.getCategoryIds(keyword);
         for (int i = 0; i < categoryIds.size(); i++) {
             sb.append(categoryIds.get(i));
             if (i < categoryIds.size() - 1) {
@@ -103,11 +105,11 @@ public class BookService {
         if (offset < 0 || limit < 0) {
             return null;
         }
-        return categoryMapper.getByOffset(offset, limit);
+        return categoryService.getByOffset(offset, limit);
     }
 
     public int getCategoryTotal() {
-        return categoryMapper.getTotal();
+        return categoryService.getTotal();
     }
 
 
@@ -206,7 +208,7 @@ public class BookService {
     }
 
     public boolean categoryExists(BigInteger categoryId) {
-        if ((categoryMapper.getCategoryNameById(categoryId) != null) || (categoryMapper.getCategoryNameById(categoryId).isEmpty())) {
+        if ((categoryService.getCategoryNameById(categoryId) != null) || (categoryService.getCategoryNameById(categoryId).isEmpty())) {
             return true;
         }
         return false;
