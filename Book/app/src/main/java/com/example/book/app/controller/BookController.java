@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.example.book.app.domain.*;
+import com.example.book.app.utils.*;
 import com.example.book.app.exceptions.AppGlobelExceptionHandler;
 import com.example.book.module.entity.Book;
 import com.example.book.module.entity.Category;
@@ -51,10 +52,19 @@ public class BookController {
     }
 
     @RequestMapping({"/book/list"})
-    public BookListVo bookAll(@RequestParam(name = "page", defaultValue = "1") int page,
+    public BookListVo bookAll(@RequestParam(name = "wp", required = false) String wpStr,
                               @RequestParam(name = "keyword", required = false, defaultValue = "") String keyword
     ) {
         int pageSize = 4;
+        int page = 1;
+
+        Wp wp = WpCode.WpDecode(wpStr);
+
+        if (wp != null && wp.getPage() != null) {
+            page = Math.max(1, wp.getPage());
+
+        }
+
         int offset = (page - 1) * pageSize;
 
         List<Book> bookList = this.bookService.getBookPageByOffset(offset, pageSize, keyword);
