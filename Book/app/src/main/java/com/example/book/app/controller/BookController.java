@@ -96,6 +96,15 @@ public class BookController {
         BookListVo bookListVo = new BookListVo();
         bookListVo.setList(bookListDetailsVoList);
         bookListVo.setIsEnd(isEnd);
+        if (!isEnd) {
+            Wp nextWp = new Wp();
+            nextWp.setPage(page);
+            nextWp.setKeyword(keyword);
+            String nextWpStr = WpCode.WpEncode(nextWp);
+            bookListVo.setWp(nextWpStr);
+        } else {
+            bookListVo.setWp(null);
+        }
         return bookListVo;
     }
 

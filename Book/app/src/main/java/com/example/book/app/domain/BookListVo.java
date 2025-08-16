@@ -13,4 +13,6 @@ public class BookListVo {
 
     @JsonProperty("isEnd")
     private Boolean isEnd;
+
+    private String wp;
 }
