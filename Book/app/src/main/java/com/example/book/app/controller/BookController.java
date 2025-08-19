@@ -98,7 +98,7 @@ public class BookController {
         bookListVo.setIsEnd(isEnd);
         if (!isEnd) {
             Wp nextWp = new Wp();
-            nextWp.setPage(page);
+            nextWp.setPage(page + 1);
             nextWp.setKeyword(keyword);
             String nextWpStr = WpCode.WpEncode(nextWp);
             bookListVo.setWp(nextWpStr);
