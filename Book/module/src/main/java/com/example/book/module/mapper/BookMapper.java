@@ -37,4 +37,6 @@ public interface BookMapper {
     int getTotal();
 
     List<BookDto> getBookWithCategory(@Param("offset") int offset,@Param("limit") int limit,@Param("keyword") String keyword,@Param("ids") String id);
+
+    void updateBookImage(@Param("id") BigInteger id, @Param("images") String images);
 }

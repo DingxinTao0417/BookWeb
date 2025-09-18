@@ -10,17 +10,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.math.BigInteger;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import com.example.book.module.service.Result;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RestController
@@ -31,6 +30,8 @@ public class BookController {
 
     @Autowired
     private CategoryService categoryService;
+
+    private static final String UPLOAD_DIR = "/Users/taodingxin/Documents/images";
 
     @RequestMapping("/book/add")
     public ConsoleStatusVo bookCreate(@RequestParam(name = "images") String images,
@@ -51,6 +52,53 @@ public class BookController {
             consoleStatusVo.setError(e.getMessage());
             return consoleStatusVo;
         }
+    }
+
+    @RequestMapping("/image/upload")
+    public ImageAddressVo uploadImage(@RequestParam(name = "bookId") BigInteger bookId,
+                                      @RequestParam("file") MultipartFile file) {
+        ImageAddressVo imageAddressVo = new ImageAddressVo();
+
+        Book book = bookService.getBookInfoById(bookId);
+        if (book == null) {
+            imageAddressVo.setImageAddress("");
+            return imageAddressVo;
+        }
+
+        if (file.isEmpty()) {
+            imageAddressVo.setStatus(false);
+            imageAddressVo.setImageAddress("未上传图片");
+            return imageAddressVo;
+        }
+
+        try {
+            String originalFilename = file.getOriginalFilename();
+            String ext = originalFilename.substring(originalFilename.lastIndexOf("."));
+            String fileName = UUID.randomUUID().toString() + ext;
+            File dest = new File(UPLOAD_DIR, fileName);
+            file.transferTo(dest);
+
+            String relativePath = UPLOAD_DIR + fileName;
+
+            String oldImages = book.getImages();
+            String newImages;
+            if (oldImages == null || oldImages.isEmpty()) {
+                newImages = relativePath;
+            } else {
+                newImages = oldImages + "$" + relativePath;
+            }
+
+            bookService.updateBookImage(bookId, newImages);
+
+            imageAddressVo.setStatus(true);
+            imageAddressVo.setImageAddress(relativePath);
+
+        } catch (Exception e) {
+            imageAddressVo.setStatus(false);
+            imageAddressVo.setMessage("上传失败: " + e.getMessage());
+        }
+
+        return imageAddressVo;
     }
 
     @RequestMapping("/book/update")

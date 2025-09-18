@@ -231,6 +231,10 @@ public class BookService {
         }
     }
 
+    public void updateBookImage(BigInteger bookId, String images) {
+        bookMapper.updateBookImage(bookId, images);
+    }
+
     public boolean categoryExists(BigInteger categoryId) {
         if ((categoryService.getCategoryNameById(categoryId) != null) || (categoryService.getCategoryNameById(categoryId).isEmpty())) {
             return true;

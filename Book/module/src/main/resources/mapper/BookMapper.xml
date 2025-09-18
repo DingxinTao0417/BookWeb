@@ -119,4 +119,11 @@
         ORDER BY b.id DESC
         LIMIT #{limit} OFFSET #{offset}
     </select>
+
+
+    <update id="updateBookImage">
+        UPDATE book
+        SET images = #{images}, update_time = UNIX_TIMESTAMP()
+        WHERE id = #{id} AND is_deleted = 0
+    </update>
 </mapper>
