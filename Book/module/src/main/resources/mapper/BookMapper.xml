@@ -86,4 +86,37 @@
         limit #{limit} offset #{offset}
     </select>
 
+    <resultMap id="BookWithCategoryMap" type="com.example.book.module.DTO.BookDto">
+        <id property="bookId" column="id"/>
+        <result property="images" column="images"/>
+        <result property="bookTitle" column="book_title"/>
+        <result property="bookRating" column="book_rating"/>
+        <result property="bookCategory" column="category_name"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <select id="getBookWithCategory" resultMap="BookWithCategoryMap">
+        SELECT
+            b.id,
+            b.book_title,
+            b.images,
+            b.book_rating,
+            c.category_name,
+            b.create_time,
+            b.update_time
+        FROM book b
+        LEFT JOIN category c ON b.category_id = c.id
+        WHERE b.is_deleted = 0
+            <if test = "keyword != null and keyword != ''">
+                AND (
+                    b.book_title LIKE CONCAT('%', #{keyword}, '%')
+                    <if test="ids != null and ids != ''">
+                        OR b.category_id IN (${ids})
+                    </if>
+                )
+            </if>
+        ORDER BY b.id DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
 </mapper>

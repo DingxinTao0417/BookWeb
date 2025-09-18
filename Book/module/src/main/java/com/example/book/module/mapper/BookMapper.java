@@ -1,5 +1,6 @@
 package com.example.book.module.mapper;
 
+import com.example.book.module.DTO.BookDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -35,4 +36,5 @@ public interface BookMapper {
     @Select("select count(*) from book where is_deleted = 0")
     int getTotal();
 
+    List<BookDto> getBookWithCategory(@Param("offset") int offset,@Param("limit") int limit,@Param("keyword") String keyword,@Param("ids") String id);
 }

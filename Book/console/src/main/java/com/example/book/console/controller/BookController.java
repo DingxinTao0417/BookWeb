@@ -1,6 +1,7 @@
 package com.example.book.console.controller;
 
 import com.example.book.console.domain.*;
+import com.example.book.module.DTO.BookDto;
 import com.example.book.module.entity.Book;
 import com.example.book.module.entity.Category;
 import com.example.book.module.service.BookService;
@@ -107,7 +108,7 @@ public class BookController {
                                  @RequestParam(name = "pageSize", defaultValue = "10") int pageSize
     ) {
         int offset = (page - 1) * pageSize;
-        List<Book> consoleList = this.bookService.getBookPageByOffset(offset, pageSize);
+        List<BookDto> consoleList = this.bookService.getBookWithCategoryByOffset(offset, pageSize);
         if (consoleList == null || consoleList.isEmpty()) {
             return new ConsoleListVo();
         }
@@ -119,13 +120,13 @@ public class BookController {
         Iterator var3 = consoleList.iterator();
 
         while(var3.hasNext()) {
-            Book book = (Book)var3.next();
+            BookDto book = (BookDto)var3.next();
             ConsoleListDetailsVo consoleListDetailsVo = new ConsoleListDetailsVo();
-            consoleListDetailsVo.setBookId(book.getId());
+            consoleListDetailsVo.setBookId(book.getBookId());
             consoleListDetailsVo.setImage(book.getImages().split("\\$")[0]);
             consoleListDetailsVo.setBookTitle(book.getBookTitle());
             consoleListDetailsVo.setBookRating(book.getBookRating());
-            String categoryName = this.bookService.getCategoryNameById(book.getCategoryId());
+            String categoryName = book.getBookCategory();
             if (categoryName == null) {
                 consoleListDetailsVo.setBookCategory("未知分类");
             } else {

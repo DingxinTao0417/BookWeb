@@ -1,5 +1,6 @@
 package com.example.book.module.service;
 
+import com.example.book.module.DTO.BookDto;
 import com.example.book.module.entity.Book;
 import com.example.book.module.entity.Category;
 import com.example.book.module.mapper.BookMapper;
@@ -95,6 +96,29 @@ public class BookService {
         }
         String ids = sb.toString();
         return bookMapper.getByOffset(offset, limit, keyword, ids);
+    }
+
+    public List<BookDto> getBookWithCategoryByOffset(int offset, int limit) {
+        if (offset < 0 || limit < 0) {
+            return null;
+        }
+        return bookMapper.getBookWithCategory(offset, limit, "", "");
+    }
+
+    public List<BookDto> getBookWithCategoryByOffset(int offset, int limit, String keyword) {
+        if (offset < 0 || limit < 0 || keyword == null) {
+            return null;
+        }
+        StringBuilder sb = new StringBuilder();
+        List<Long> categoryIds = categoryService.getCategoryIds(keyword);
+        for (int i = 0; i < categoryIds.size(); i++) {
+            sb.append(categoryIds.get(i));
+            if (i < categoryIds.size() - 1) {
+                sb.append(",");
+            }
+        }
+        String ids = sb.toString();
+        return bookMapper.getBookWithCategory(offset, limit, keyword, ids);
     }
 
     public int getBookTotal() {
