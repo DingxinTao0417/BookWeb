@@ -5,10 +5,8 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import com.example.book.app.domain.*;
 import com.example.book.module.entity.Book;
@@ -32,9 +30,14 @@ public class CategoryController {
 
     @RequestMapping({"/category/list"})
     public BookCategoryListVo categoryAll(@RequestParam(name = "parentId", required = false) BigInteger parentId) {
-        List<Category> parentCategories= this.categoryService.getValidCategory(parentId);
+        List<Category> parentCategories = this.categoryService.getValidCategory(parentId);
 
         List<BookCategoryDetailsVo> bookCategoryList = new ArrayList();
+
+        List<Category> allCategories = categoryService.getAllCategory();
+        Map<BigInteger, List<Category>> categoryMap = allCategories.stream()
+                .filter(c -> c.getParentId() != null)
+                .collect(Collectors.groupingBy(Category::getParentId));
 
         for (Category parent : parentCategories) {
             BookCategoryDetailsVo bookCategoryDetailsVo = new BookCategoryDetailsVo();
@@ -44,7 +47,7 @@ public class CategoryController {
 
             List<SubCategoryDetailsVo> subCategoryList = new ArrayList();
 
-            List<Category> subCategories = this.categoryService.getByParentId(parent.getId());
+            List<Category> subCategories = categoryMap.getOrDefault(parent.getId(), Collections.emptyList());
             for (Category subCategory : subCategories) {
                 SubCategoryDetailsVo subCategoryDetailsVo = new SubCategoryDetailsVo();
                 subCategoryDetailsVo.setCategoryId(subCategory.getId());
