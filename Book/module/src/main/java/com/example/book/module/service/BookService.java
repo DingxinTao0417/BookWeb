@@ -1,10 +1,9 @@
 package com.example.book.module.service;
 
-import com.example.book.module.DTO.BookDto;
+import com.example.book.module.dto.BookDto;
 import com.example.book.module.entity.Book;
 import com.example.book.module.entity.Category;
 import com.example.book.module.mapper.BookMapper;
-import com.example.book.module.mapper.CategoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -84,7 +84,7 @@ public class BookController {
             bookListDetailsVo.setBookTitle(book.getBookTitle());
             bookListDetailsVo.setBookRating(book.getBookRating());
 
-            String categoryName = this.bookService.getCategoryNameById(book.getCategoryId());
+            String categoryName = book.getBookCategory();
             if (categoryName == null) {
                 bookListDetailsVo.setBookCategory("未知分类");
             } else {

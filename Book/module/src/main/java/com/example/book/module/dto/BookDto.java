@@ -1,4 +1,4 @@
-package com.example.book.module.DTO;
+package com.example.book.module.dto;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

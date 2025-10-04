@@ -1,9 +1,8 @@
 package com.example.book.console.controller;
 
 import com.example.book.console.domain.*;
-import com.example.book.module.DTO.BookDto;
+import com.example.book.module.dto.BookDto;
 import com.example.book.module.entity.Book;
-import com.example.book.module.entity.Category;
 import com.example.book.module.service.BookService;
 import com.example.book.module.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +17,6 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import com.example.book.module.service.Result;
 import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
@@ -30,8 +28,6 @@ public class BookController {
 
     @Autowired
     private CategoryService categoryService;
-
-    private static final String UPLOAD_DIR = "/Users/taodingxin/Documents/images";
 
     @RequestMapping("/book/add")
     public ConsoleStatusVo bookCreate(@RequestParam(name = "images") String images,
@@ -52,53 +48,6 @@ public class BookController {
             consoleStatusVo.setError(e.getMessage());
             return consoleStatusVo;
         }
-    }
-
-    @RequestMapping("/image/upload")
-    public ImageAddressVo uploadImage(@RequestParam(name = "bookId") BigInteger bookId,
-                                      @RequestParam("file") MultipartFile file) {
-        ImageAddressVo imageAddressVo = new ImageAddressVo();
-
-        Book book = bookService.getBookInfoById(bookId);
-        if (book == null) {
-            imageAddressVo.setImageAddress("");
-            return imageAddressVo;
-        }
-
-        if (file.isEmpty()) {
-            imageAddressVo.setStatus(false);
-            imageAddressVo.setImageAddress("未上传图片");
-            return imageAddressVo;
-        }
-
-        try {
-            String originalFilename = file.getOriginalFilename();
-            String ext = originalFilename.substring(originalFilename.lastIndexOf("."));
-            String fileName = UUID.randomUUID().toString() + ext;
-            File dest = new File(UPLOAD_DIR, fileName);
-            file.transferTo(dest);
-
-            String relativePath = UPLOAD_DIR + fileName;
-
-            String oldImages = book.getImages();
-            String newImages;
-            if (oldImages == null || oldImages.isEmpty()) {
-                newImages = relativePath;
-            } else {
-                newImages = oldImages + "$" + relativePath;
-            }
-
-            bookService.updateBookImage(bookId, newImages);
-
-            imageAddressVo.setStatus(true);
-            imageAddressVo.setImageAddress(relativePath);
-
-        } catch (Exception e) {
-            imageAddressVo.setStatus(false);
-            imageAddressVo.setMessage("上传失败: " + e.getMessage());
-        }
-
-        return imageAddressVo;
     }
 
     @RequestMapping("/book/update")

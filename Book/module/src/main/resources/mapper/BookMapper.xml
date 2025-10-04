@@ -86,7 +86,7 @@
         limit #{limit} offset #{offset}
     </select>
 
-    <resultMap id="BookWithCategoryMap" type="com.example.book.module.DTO.BookDto">
+    <resultMap id="BookWithCategoryMap" type="com.example.book.module.dto.BookDto">
         <id property="bookId" column="id"/>
         <result property="images" column="images"/>
         <result property="bookTitle" column="book_title"/>

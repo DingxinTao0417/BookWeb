@@ -1,6 +1,6 @@
 package com.example.book.module.mapper;
 
-import com.example.book.module.DTO.BookDto;
+import com.example.book.module.dto.BookDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
