@@ -1,5 +1,6 @@
 package com.example.book.module.service;
 
+import com.example.book.module.dto.CategoryMapDto;
 import com.example.book.module.entity.Category;
 import com.example.book.module.mapper.BookMapper;
 import com.example.book.module.mapper.CategoryMapper;
@@ -84,5 +85,7 @@ public class CategoryService {
     public List<Category> getByOffset(Integer offset, Integer limit){
         return categoryMapper.getByOffset(offset, limit);
     }
+
+    public List<CategoryMapDto> getCategoryMapList() { return categoryMapper.getCategoryMapList(); }
 
 }

@@ -2,6 +2,7 @@ package com.example.book.console.controller;
 
 import com.example.book.console.domain.*;
 import com.example.book.module.dto.BookDto;
+import com.example.book.module.dto.CategoryMapDto;
 import com.example.book.module.entity.Book;
 import com.example.book.module.service.BookService;
 import com.example.book.module.service.CategoryService;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -83,6 +85,7 @@ public class BookController {
     @RequestMapping("/book/info")
     public ConsoleInfoVo bookInfo(@RequestParam(name = "bookId") BigInteger bookId) {
         Book book = bookService.getBookInfoById(bookId);
+        String categoryName = categoryService.getCategoryNameById(book.getCategoryId());
         if (book == null) {
             return new ConsoleInfoVo();
         }
@@ -91,7 +94,7 @@ public class BookController {
         consoleInfoVo.setBookTitle(book.getBookTitle());
         consoleInfoVo.setBookRating(book.getBookRating());
         consoleInfoVo.setBookReview(book.getBookReview());
-        consoleInfoVo.setBookCategory(book.getBookCategory());
+        consoleInfoVo.setBookCategory(categoryName);
         int timestamp = book.getCreateTime();
         LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(timestamp), ZoneId.systemDefault());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

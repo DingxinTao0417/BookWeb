@@ -38,7 +38,6 @@ public class BookService {
         bookReturn.setBookReview(book.getBookReview());
         bookReturn.setCreateTime(book.getCreateTime());
         bookReturn.setUpdateTime(book.getUpdateTime());
-        bookReturn.setBookCategory(categoryName);
 
         return bookReturn;
     }
@@ -61,7 +60,6 @@ public class BookService {
         bookReturn.setBookReview(book.getBookReview());
         bookReturn.setCreateTime(book.getCreateTime());
         bookReturn.setUpdateTime(book.getUpdateTime());
-        bookReturn.setBookCategory(categoryName);
 
         return bookReturn;
     }

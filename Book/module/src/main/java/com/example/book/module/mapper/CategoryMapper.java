@@ -1,5 +1,6 @@
 package com.example.book.module.mapper;
 
+import com.example.book.module.dto.CategoryMapDto;
 import com.example.book.module.entity.Category;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -42,5 +43,8 @@ public interface CategoryMapper{
 
     @Select("SELECT * FROM category where is_deleted = 0 AND parent_id=#{parentId} limit 99")
     List<Category> getByParentId(@Param("parentId") BigInteger parentId);
+
+    @Select("SELECT id, category_name AS categoryName FROM category WHERE is_deleted = 0")
+    List<CategoryMapDto> getCategoryMapList();
 
 }

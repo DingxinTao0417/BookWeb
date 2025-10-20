@@ -5,17 +5,17 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import com.example.book.app.domain.*;
 import com.example.book.app.utils.*;
 import com.example.book.app.exceptions.AppGlobelExceptionHandler;
+import com.example.book.module.dto.CategoryMapDto;
 import com.example.book.module.entity.Book;
 import com.example.book.module.entity.Category;
 import com.example.book.module.service.BookService;
+import com.example.book.module.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookController {
     @Autowired
     private BookService bookService;
+    @Autowired
+    private CategoryService categoryService;
 
     public BookController() {
     }
@@ -34,6 +36,7 @@ public class BookController {
     @RequestMapping("/book/info")
     public BookInfoVo bookInfo(@RequestParam(name = "bookId") BigInteger bookId) {
         Book book = bookService.getBookInfoById(bookId);
+        String categoryName = categoryService.getCategoryNameById(book.getCategoryId());
         if (book == null) {
             return new BookInfoVo();
         }
@@ -42,7 +45,7 @@ public class BookController {
         bookInfoVo.setBookTitle(book.getBookTitle());
         bookInfoVo.setBookRating(book.getBookRating());
         bookInfoVo.setBookReview(book.getBookReview());
-        bookInfoVo.setBookCategory(book.getBookCategory());
+        bookInfoVo.setBookCategory(categoryName);
         int timestamp = book.getCreateTime();
         LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(timestamp), ZoneId.systemDefault());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -65,6 +68,11 @@ public class BookController {
 
         }
 
+        // category 存到map，循环里根据categoryId取出categoryName
+        List<CategoryMapDto> categoryList = categoryService.getCategoryMapList();
+        Map<BigInteger, String> categoryMap = categoryList.stream()
+                .collect(Collectors.toMap(CategoryMapDto::getId, CategoryMapDto::getCategoryName));
+
         int offset = (page - 1) * pageSize;
 
         List<Book> bookList = this.bookService.getBookPageByOffset(offset, pageSize, keyword);
@@ -84,7 +92,7 @@ public class BookController {
             bookListDetailsVo.setBookTitle(book.getBookTitle());
             bookListDetailsVo.setBookRating(book.getBookRating());
 
-            String categoryName = book.getBookCategory();
+            String categoryName = categoryMap.get(book.getCategoryId());
             if (categoryName == null) {
                 bookListDetailsVo.setBookCategory("未知分类");
             } else {
